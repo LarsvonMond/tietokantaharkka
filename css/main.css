@@ -1,0 +1,8 @@
+#sivun-otsikko h1{
+        display: inline-block;
+}
+
+#sivun-otsikko a#kirjaudu-sisaan{
+    position: relative;
+    top: 20px;
+}
