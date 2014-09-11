@@ -4,6 +4,9 @@
 	    <link href="../css/bootstrap.css" rel="stylesheet">
 	    <link href="../css/bootstrap-theme.css" rel="stylesheet">
 	    <link href="../css/main.css" rel="stylesheet">
+
+        <script src="../js/jquery.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
         <title>Lisää askare</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
@@ -19,9 +22,41 @@
         <div class="input-group">
             <input type="text" class="form-control" placeholder="Askare">
         </div>
+        <table class="table">
+            <tr> <td><span class="input-group-addon"><input type="radio"></span></td><td>1</td></tr>
+            <tr> <td><span class="input-group-addon"><input type="radio"></span></td><td>2</td></tr>
+            <tr> <td><span class="input-group-addon"><input type="radio"></span></td><td>3</td></tr>
+            <tr> <td><span class="input-group-addon"><input type="radio"></span></td><td>4</td></tr>
+            <tr> <td><span class="input-group-addon"><input type="radio"></span></td><td>5</td></tr>
+        </table>
+        
+        <h2>Luokat</h2>
+        <table class="table">
+                <tr> <td>Uusi luokka</td><td><input type="text" class="form-control" placeholder="Luokka"></td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Yliluokka<span class="caret"></span></button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                <li role="presentation"><a href="#">Kauppa</a></li>
+                                <li role="presentation"><a href="#">Koti</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <tr> <td><input type="checkbox"></td><td>Kauppa</td><td></td></tr> 
+                <tr> <td><input type="checkbox"></td><td>Koti</td><td></td></tr> 
+        </table>
         <button type="button" class="btn btn-default">
             <a href="#">Lisää</a>
         </button>
+
+
+
+
+
+
+
+
 
     </body>
 </html>
