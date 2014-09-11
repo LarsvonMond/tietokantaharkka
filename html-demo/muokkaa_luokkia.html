@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+	    <link href="../css/bootstrap.css" rel="stylesheet">
+	    <link href="../css/bootstrap-theme.css" rel="stylesheet">
+	    <link href="../css/main.css" rel="stylesheet">
+        <title>Muokkaa luokkia</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <h1>Muistilista</h1>
+        <ul class="nav nav-pills" role="tablist">
+            <li class="active"><a href="askarelistaus.html">Askarelista</a></li>
+            <li><a href="#">Lisää askare</a></li>
+            <li><a href="vaihda_salasana.html">Vaihda salasana</a></li>
+            <li><a href="#">Kirjaudu ulos</a></li>
+        </ul>
+        <div class="input-group">
+            <span class="input-group-addon">Uusi luokka</span>
+            <input type="text" class="form-control" placeholder="Luokka">
+        </div>        
+        <table class="table">
+                <tr> <th></th> <th>Luokka</th><th>Aliluokat</th></tr>
+                <tr> <td><input type="checkbox"></td><td>Kauppa</td><td></td></tr> 
+                <tr> <td><input type="checkbox"></td><td>Koti</td><td></td></tr> 
+        </table>
+
+        <button type="button" class="btn btn-default">
+            <a href="#">Tallenna</a>
+        </button>
+    </body>
+</html>
