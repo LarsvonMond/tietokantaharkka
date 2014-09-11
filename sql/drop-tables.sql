@@ -1,3 +1,6 @@
-DROP TABLE askareidenluokat, luokat, askareet, kayttajat CASCADE;
+DROP TABLE askareidenluokat CASCADE;
+DROP TABLE luokat CASCADE;
+DROP TABLE askareet CASCADE;
+DROP TABLE kayttajat CASCADE;
 
 
