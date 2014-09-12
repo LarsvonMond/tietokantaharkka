@@ -15,8 +15,8 @@
         <ul class="nav nav-pills" role="tablist">
             <li><a href="askarelistaus.html">Askarelista</a></li>
             <li class="active"><a href="#">Lisää askare</a></li>
-            <li><a href="#">Vaihda salasana</a></li>
-            <li><a href="kirjaudu.html">Kirjaudu ulos</a></li>
+            <li><a href="vaihda_salasana.html">Vaihda salasana</a></li>
+            <li><a href="#">Kirjaudu ulos</a></li>
         </ul>
         <h1>Lisää askare</h1>
         <div class="input-group">

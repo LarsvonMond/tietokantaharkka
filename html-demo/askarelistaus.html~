@@ -23,8 +23,8 @@
         <div>
             <table class="table">
                 <tr> <th>Askare</th><th>Luokat</th><th>Tärkeysaste</th><th></th></tr>  
-                <tr> <td>Osta maitoa</td> <td><a href="muokkaa_luokkia.html">Kauppa</a></td><td>1</td><td><a href="#">Poista</a></td></tr>
-                <tr> <td>Juo maito</td> <td><a href="muokkaa_luokkia.html">Koti</a></td><td>2</td><td><a href="#">Poista</a></td></tr>
+                <tr> <td>Osta maitoa</td> <td>Kauppa</td><td>1</td><td><a href="#">Poista</a></td></tr>
+                <tr> <td>Juo maito</td> <td>Koti</td><td>2</td><td><a href="#">Poista</a></td></tr>
             </table>
         </div>
     </body>

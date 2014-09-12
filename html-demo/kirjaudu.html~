@@ -16,7 +16,7 @@
         <input type="text" class="form-control" id="kayttajatunnus" placeholder="Käyttäjätunnus">
         <label for="salasana">Salasana</label>
         <input type="password" class="form-control" id="salasana" placeholder="Salasana">       
-        <a href="askarelistaus.html">Kirjaudu</a>
+        <button class="btn btn-default"><a href="askarelistaus.html">Kirjaudu</a></button>
 
     </body>
 </html>

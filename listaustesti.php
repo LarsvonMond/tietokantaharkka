@@ -15,14 +15,11 @@ $kayttajat = Kayttaja::get_kayttajat();?><!DOCTYPE html>
         <h1>Käyttäjät</h1>
         <table class="table">
             <tr> <th>Käyttäjänimi</th><th>Salasana</th></tr>  
-            <?php foreach ($kayttajat as $kayttaja) {?>
-                <tr><td><?php $kayttaja->get_kayttajatunnus();?></td>
-                    <td><?php $kayttaja->get_salasana();?></td>
+            <?php foreach ($kayttajat as $kayttaja): ?>
+                <tr><td><?php echo $kayttaja->get_kayttajatunnus();?></td>
+                    <td><?php echo $kayttaja->get_salasana();?></td>
                 </tr>
             <?php endforeach; ?>
         </table>
-
-
-
-
-
+    </body>
+</html>
