@@ -38,7 +38,6 @@ class Luokka {
                 }
             }
         }
-
         return $tulokset;
     }
 

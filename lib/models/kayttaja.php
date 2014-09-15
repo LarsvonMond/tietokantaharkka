@@ -7,15 +7,17 @@ class Kayttaja {
     private $id;
     private $tunnus;
     private $salasana;
+    private $admin;
 
-    public function __construct($id, $kayttajatunnus, $salasana) {
+    public function __construct($id, $kayttajatunnus, $salasana, $admin) {
         $this->id = $id;
         $this->kayttajatunnus = $kayttajatunnus;
         $this->salasana = $salasana;
+        $this->admin = $admin;
     }
 
     public static function get_kayttajat() {
-        $sql = 'SELECT id, kayttajatunnus, salasana from kayttajat';
+        $sql = 'SELECT id, kayttajatunnus, salasana, admin from kayttajat';
         $kysely = getTietokantayhteys()->prepare($sql); $kysely->execute();
         
         $tulokset = array();
@@ -23,12 +25,12 @@ class Kayttaja {
             $id = $tulos->id;
             $kayttajatunnus = $tulos->kayttajatunnus;
             $salasana = $tulos->salasana;
-            $kayttaja = new Kayttaja($id, $kayttajatunnus, $salasana);
+            $admin = $tulos->admin;
+            $kayttaja = new Kayttaja($id, $kayttajatunnus, $salasana, $admin);
             $tulokset[] = $kayttaja;
         }
         return $tulokset;
     }
-
 
     
 
@@ -43,6 +45,9 @@ class Kayttaja {
     public function get_id(){
         return $this->id;
     }
+    public function get_admin(){
+        return $this->admin;
+    }
     public function set_kayttajatunnus($tunnus){
         $this->kayttajatunnus = $tunnus;
     }
@@ -51,5 +56,8 @@ class Kayttaja {
     }
     public function set_id($id){
         $this->id = $id;
+    }
+    public function set_admin($value) {
+        $this->admin = $value;
     }
 }
