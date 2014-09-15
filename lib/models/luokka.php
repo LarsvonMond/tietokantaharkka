@@ -30,7 +30,7 @@ class Luokka {
         }
 
         foreach($tulokset as $tulos) {
-            if ($tulos->yliluokka_id != null) {
+            if (!(isset($tulos->yliluokka_id))) {
                 foreach($tulokset as $yliluokkakandidaatti) {
                     if ($tulos->yliluokka_id == $yliluokkakandidaatti->id) {
                         $tulos->yliluokka = $yliluokkakandidaatti;

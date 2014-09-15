@@ -15,3 +15,10 @@ function getTietokantayhteys() {
 
   return $yhteys;
 }
+
+function naytaNakyma($sivu, $data = ) {
+    $data = (object)$data;
+    require 'views/pohja.php';
+    exit();
+}
+

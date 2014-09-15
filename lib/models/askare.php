@@ -24,14 +24,13 @@ class Askare {
         
         $tulokset = array();
         foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
-            $id = $tulos->id;
-            $kayttaja = null;            
+            $id = $tulos->id;         
             foreach($kayttajat as $k) {
                 if ($k->id == $tulos->kayttaja_id) {
                     $kayttaja = $k;
                 }
             }
-            if ($kayttaja == null) {
+            if (isset($kayttaja)) {
                 throw new Exception('Ei id:n mukaista käyttäjää');
             }
             $kuvaus = $tulos->kuvaus;
