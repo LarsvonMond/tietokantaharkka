@@ -8,6 +8,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
+        <?php if (!empty($data->virhe)): ?>
+            <div class="alert alert-danger"><?php echo $data->virhe; ?></div>
+        <?php endif; ?>
         <?php require 'views/'.$sivu; ?>
     </body>
 </html>
