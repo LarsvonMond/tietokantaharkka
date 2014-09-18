@@ -1,6 +1,6 @@
 <?php
 
-require_once 'lib/tietokantayhteys.php';
+require_once 'lib/common.php';
 
 class Kayttaja {
   
@@ -30,6 +30,23 @@ class Kayttaja {
             $tulokset[] = $kayttaja;
         }
         return $tulokset;
+    }
+
+    public static function get_kayttaja_tunnuksilla($kayttajatunnus, $salasana) {
+        $sql = 'SELECT id, kayttajatunnus, salasana, admin from kayttajat where kayttajatunnus = ? AND salasana = ? LIMIT 1';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($kayttajatunnus, $salasana));
+
+        $tulos = $kysely->fetchObject();
+        if ($tulos == null) {
+            return null;
+        }
+        else {
+            $id = $tulos->id;
+            $admin = $tulos->admin;
+            $kayttaja = new Kayttaja($id, $kayttajatunnus, $salasana, $admin);
+            return $kayttaja;
+        }
     }
 
     

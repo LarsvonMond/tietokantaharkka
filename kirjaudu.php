@@ -1,6 +1,7 @@
 <?php
 
   require_once 'lib/common.php';
+  require_once 'lib/models/kayttaja.php';
   
   //Tarkistetaan että vaaditut kentät on täytetty:
   if (empty($_POST["kayttajatunnus"])) {
@@ -8,7 +9,7 @@
       'virhe' => "Kirjautuminen epäonnistui! Et antanut käyttäjätunnusta.",
     ));
   }
-  $kayttaja = $_POST["kayttajatunnus"];
+  $kayttajatunnus = $_POST["kayttajatunnus"];
 
   if (empty($_POST["salasana"])) {
     naytaNakyma("login.php", array(
@@ -19,7 +20,8 @@
   $salasana = $_POST["salasana"];
   
   /* Tarkistetaan onko parametrina saatu oikeat tunnukset */
-  if ($kayttaja == 'Hitler' && $salasana == 'lebensraum') {
+  $kayttaja = Kayttaja::get_kayttaja_tunnuksilla($kayttajatunnus, $salasana);
+  if (!empty($kayttaja)) {
     /* Jos tunnus on oikea, ohjataan käyttäjä sopivalla HTTP-otsakkeella kissalistaan. */
     header('Location: askarelistaus.php');
   } else {
@@ -28,7 +30,7 @@
      */
     naytaNakyma("login.php", array(
       /* Välitetään näkymälle tieto siitä, kuka yritti kirjautumista */
-      'kayttajatunnus' => $kayttaja,
+      'kayttajatunnus' => $kayttajatunnus,
       'virhe' => "Kirjautuminen epäonnistui! Antamasi tunnus tai salasana on väärä."
     ));
   }
