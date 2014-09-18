@@ -32,6 +32,17 @@ class Kayttaja {
         return $tulokset;
     }
 
+    public static function get_kayttaja($id) {
+        $sql = 'SELECT id, kayttajatunnus, salasana, admin from kayttaja where id = ? LIMIT 1';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($id));
+        $tulos = $kysely->fetchObject();
+        $kayttajatunnus = $tulos->kayttajatunnus;
+        $salasana = $tulos->salasana;
+        $admin = $tulos->admin;
+        return new Kayttaja($id, $kayttajatunnus, $salasana, $admin);
+}
+
     public static function get_kayttaja_tunnuksilla($kayttajatunnus, $salasana) {
         $sql = 'SELECT id, kayttajatunnus, salasana, admin from kayttaja where kayttajatunnus = ? AND salasana = ? LIMIT 1';
         $kysely = getTietokantayhteys()->prepare($sql);

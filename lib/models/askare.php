@@ -45,19 +45,31 @@ class Askare {
     }
 
     public static function get_kayttajan_askareet($kayttaja_id) {
-        $sql = 'SELECT askare.id, askare.kuvaus, askare.tarkeys, luokka.nimi
+        $sql = '(SELECT askare.id, askare.kuvaus, askare.tarkeys, luokka.nimi
                 FROM askare, askareenluokka, luokka
                 WHERE 
                     askare.id = askareenluokka.askare_id AND
                     luokka.id = askareenluokka.luokka_id AND
                     askare.kayttaja_id = ?
-                ORDER BY askare.tarkeys';
+                )
+                UNION
+                (
+                SELECT askare.id, askare.kuvaus, askare.tarkeys, NULL
+                FROM askare
+                WHERE
+                    askare.kayttaja_id = ? AND
+                    askare.id NOT IN 
+                   (SELECT askare_id FROM askareenluokka)
+                )';
         $kysely = getTietokantayhteys()->prepare($sql);
-        $kysely->execute(array($kayttaja_id));
+        $kysely->execute(array($kayttaja_id, $kayttaja_id));
 
         $askareet = array();
+        $kayttaja = Kayttaja::get_kayttaja($kayttaja_id);
         foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
-            $askareet[] = new Askare($tulos->id, $kayttaja, $tulos->kuvaus, $tulos->tarkeys);
+            $askare = new Askare($tulos->id, $kayttaja, $tulos->kuvaus, $tulos->tarkeys);
+            $askare->set_luokat(array($tulos->nimi));
+            $askareet[] = $askare;   
         }
 
         return $askareet;
@@ -109,5 +121,11 @@ class Askare {
     }
     public function set_tarkeys($value) {
         $this->tarkeys = $value;
+    }
+    public function get_luokat() {
+        return $this->luokat;
+    }
+    public function set_luokat($value) {
+        $this->luokat = $value;
     }
 }
