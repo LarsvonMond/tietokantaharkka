@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 /** Funktio joka palauttaa yhteyden tietokantaan PDO-oliona. */
 function getTietokantayhteys() {
@@ -22,3 +23,15 @@ function naytaNakyma($sivu, $data) {
     exit();
 }
 
+function kirjautunut() {
+    if (isset($_SESSION['kirjautunut_kayttaja'])) {
+        return TRUE;
+    }
+    return FALSE;
+}
+
+function activeif($exp, $value) {
+    if ($exp == $value) {
+        return 'class="active"';
+    }
+}

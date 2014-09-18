@@ -1,4 +1,3 @@
-<h1>Muistilista</h1>
 <form action="kirjaudu.php" method="POST">
     <label for="kayttajatunnus">Käyttäjätunnus</label>
     <input type="text" class="form-control" name="kayttajatunnus" placeholder="Käyttäjätunnus">

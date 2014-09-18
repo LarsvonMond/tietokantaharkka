@@ -1,6 +1,6 @@
 <?php
 
-require_once 'lib/common.php'
+require_once 'lib/common.php';
 
 class Askare {
     
@@ -19,7 +19,7 @@ class Askare {
     }
 
     public static function get_askareet($kayttajat, $luokat) {
-        $sql = 'SELECT id, kayttaja_id, kuvaus, tarkeys from kayttajat';
+        $sql = 'SELECT id, kayttaja_id, kuvaus, tarkeys from kayttaja';
         $kysely = getTietokantayhteys()->prepare($sql); $kysely->execute();
         
         $tulokset = array();
@@ -43,6 +43,26 @@ class Askare {
         aseta_luokkaviittaukset($tulokset, $luokat);
         return $tulokset;
     }
+
+    public static function get_kayttajan_askareet($kayttaja_id) {
+        $sql = 'SELECT askare.id, askare.kuvaus, askare.tarkeys, luokka.nimi
+                FROM askare, askareenluokka, luokka
+                WHERE 
+                    askare.id = askareenluokka.askare_id AND
+                    luokka.id = askareenluokka.luokka_id AND
+                    askare.kayttaja_id = ?
+                ORDER BY askare.tarkeys';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($kayttaja_id));
+
+        $askareet = array();
+        foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
+            $askareet[] = new Askare($tulos->id, $kayttaja, $tulos->kuvaus, $tulos->tarkeys);
+        }
+
+        return $askareet;
+    }
+            
 
     private function aseta_luokkaviittauset($askareet, $luokat) {
         $sql = 'SELECT askare_id, luokka_id from askareidenluokat';

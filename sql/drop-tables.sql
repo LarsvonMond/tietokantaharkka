@@ -1,6 +1,6 @@
-DROP TABLE askareidenluokat CASCADE;
-DROP TABLE luokat CASCADE;
-DROP TABLE askareet CASCADE;
-DROP TABLE kayttajat CASCADE;
+DROP TABLE askareenluokka CASCADE;
+DROP TABLE luokka CASCADE;
+DROP TABLE askare CASCADE;
+DROP TABLE kayttaja CASCADE;
 
 

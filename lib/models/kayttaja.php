@@ -17,7 +17,7 @@ class Kayttaja {
     }
 
     public static function get_kayttajat() {
-        $sql = 'SELECT id, kayttajatunnus, salasana, admin from kayttajat';
+        $sql = 'SELECT id, kayttajatunnus, salasana, admin from kayttaja';
         $kysely = getTietokantayhteys()->prepare($sql); $kysely->execute();
         
         $tulokset = array();
@@ -33,7 +33,7 @@ class Kayttaja {
     }
 
     public static function get_kayttaja_tunnuksilla($kayttajatunnus, $salasana) {
-        $sql = 'SELECT id, kayttajatunnus, salasana, admin from kayttajat where kayttajatunnus = ? AND salasana = ? LIMIT 1';
+        $sql = 'SELECT id, kayttajatunnus, salasana, admin from kayttaja where kayttajatunnus = ? AND salasana = ? LIMIT 1';
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($kayttajatunnus, $salasana));
 

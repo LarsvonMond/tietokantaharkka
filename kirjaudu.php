@@ -23,6 +23,7 @@
   $kayttaja = Kayttaja::get_kayttaja_tunnuksilla($kayttajatunnus, $salasana);
   if (!empty($kayttaja)) {
     /* Jos tunnus on oikea, ohjataan käyttäjä sopivalla HTTP-otsakkeella kissalistaan. */
+    $_SESSION['kirjautunut_kayttaja_id'] = $kayttaja->get_id();
     header('Location: askarelistaus.php');
   } else {
     /* Väärän tunnuksen syöttänyt saa eteensä lomakkeen ja virheen.
@@ -31,6 +32,6 @@
     naytaNakyma("login.php", array(
       /* Välitetään näkymälle tieto siitä, kuka yritti kirjautumista */
       'kayttajatunnus' => $kayttajatunnus,
-      'virhe' => "Kirjautuminen epäonnistui! Antamasi tunnus tai salasana on väärä."
+      'virhe' => "Kirjautuminen epäonnistui! Antamasi tunnus tai salasana on väärä.",
     ));
   }
