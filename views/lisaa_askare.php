@@ -30,14 +30,18 @@
                     <div class="dropdown">
                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Yliluokka<span class="caret"></span></button>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                            <li role="presentation"><a href="#">Kauppa</a></li>
-                            <li role="presentation"><a href="#">Koti</a></li>
+                            <?php foreach($data->luokat as $luokka) : ?>
+                                <li role="presentation"><a href="#">
+                                    <?php echo $luokka->get_nimi() ?></a></li>
+                            <?php endforeach; ?>
                         </ul>
                     </div>
                 </td>
             </tr>
-            <tr> <td><input type="checkbox"></td><td>Kauppa</td><td></td></tr> 
-            <tr> <td><input type="checkbox"></td><td>Koti</td><td></td></tr> 
+            <?php foreach($data->luokat as $luokka) : ?>
+                <tr> <td><input type="checkbox"></td><td>
+                <?php echo $luokka->get_nimi() ?></td><td></td></tr> 
+            <?php endforeach; ?>
     </table>
     <button class="btn btn-default" type="submit">Lisää</button>
 </form>

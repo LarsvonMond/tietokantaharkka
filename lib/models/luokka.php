@@ -52,7 +52,7 @@ class Luokka {
                     kayttaja.id = ?
                 ORDER BY luokka.nimi';
         $kysely = getTietokantayhteys()->prepare($sql);
-        $kysely->execute();
+        $kysely->execute(array($kayttaja_id));
         $luokat = array();
         foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
             $id = $tulos->id;

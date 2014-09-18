@@ -5,7 +5,7 @@ require_once 'lib/models/kayttaja.php';
 require_once 'lib/models/askare.php';
 
 if (!kirjautunut()) {
-    naytaNakyma('kirjaudu.php', array());
+    header('Location: kirjaudu.php');
 }
 
 naytaNakyma('askarelistaus.php', array('navbar' => 0,
