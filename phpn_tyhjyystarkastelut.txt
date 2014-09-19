@@ -1,0 +1,10 @@
+        isset  is_null ===null  ==null  empty
+ null |   F   |   T   |   T   |   T   |   T   |
+unset |   F   |   T   |   T   |   T   |   T   |
+  ""  |   T   |   F   |   F   |   T   |   T   |
+  []  |   T   |   F   |   F   |   T   |   T   |
+    0 |   T   |   F   |   F   |   T   |   T   |
+false |   T   |   F   |   F   |   T   |   T   |
+ true |   T   |   F   |   F   |   F   |   F   |
+    1 |   T   |   F   |   F   |   F   |   F   |
+   \0 |   T   |   F   |   F   |   F   |   F   |

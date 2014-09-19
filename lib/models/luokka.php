@@ -66,6 +66,20 @@ class Luokka {
 
 
     /* Getterit ja setterit */
+    public function get_yliluokka_nimi() {
+        if (empty($this->yliluokka_id)) {
+            return "";
+        }
+        $sql = 'SELECT nimi
+                FROM luokka
+                WHERE 
+                    luokka.id = ?
+                LIMIT 1';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($this->yliluokka_id));
+        
+        return $kysely->fetchObject()->nimi;
+    }
 
     public function get_id() {
         return $this->id;

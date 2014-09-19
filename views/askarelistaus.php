@@ -10,7 +10,9 @@
             <tr> <td><?php echo $askare->get_kuvaus(); ?> </td> 
             <td>
                 <?php foreach($askare->get_luokat() as $luokka): ?>
+                    <a href="muokkaa_luokkia.php">
                     <?php echo $luokka; ?>
+                    </a>
                 <?php endforeach; ?></td>
             <td><?php echo $askare->get_tarkeys(); ?></td>
             <td><a href="#">Poista</a></td></tr>
