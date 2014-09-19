@@ -1,6 +1,6 @@
 <?php
-require_once 'lib/tietokantayhteys.php';
-require_once 'lib/kayttaja.php';
+require_once 'lib/common.php';
+require_once 'lib/models/kayttaja.php';
 
 $kayttajat = Kayttaja::get_kayttajat();?><!DOCTYPE html>
 <html>
