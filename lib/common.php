@@ -24,7 +24,7 @@ function naytaNakyma($sivu, $data) {
 }
 
 function kirjautunut() {
-    if (isset($_SESSION['kirjautunut_kayttaja'])) {
+    if (isset($_SESSION['kirjautunut_kayttaja_id'])) {
         return TRUE;
     }
     return FALSE;
