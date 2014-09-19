@@ -1,6 +1,7 @@
 <?php
 
 require_once 'lib/common.php';
+require_once 'lib/models/luokka.php';
 
 if (!kirjautunut()) {
     header('Location: kirjaudu.php');

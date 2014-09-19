@@ -91,3 +91,4 @@ class Luokka {
     public function set_yliluokka_id($value) {
         $this->yliluokka_id = $value;
     }
+}
