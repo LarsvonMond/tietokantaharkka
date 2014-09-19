@@ -1,9 +1,9 @@
-<?php 
-  $tervehdys = "Toimiva testisivu"; 
-?><!DOCTYPE HTML>
-<html>
-<head><title><?php echo $tervehdys; ?></title></head>
-<body>
-  <h1><?php echo $tervehdys; ?></h1>
-</body>
-</html>
+<?php
+
+require_once 'lib/common.php';
+  
+if (isset($_SESSION['kirjautunut_kayttaja_id'])) {
+    header('Location: askarelistaus.php');
+}
+
+naytaNakyma('login.php', array());
