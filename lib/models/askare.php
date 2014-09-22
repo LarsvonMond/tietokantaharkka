@@ -74,7 +74,31 @@ class Askare {
 
         return $askareet;
     }
+
+    public static function get_kayttajan_askareet_luokan_mukaan($kayttaja_id, $luokka_id) {
+        $sql = 'SELECT askare.id, askare.kuvaus, askare.tarkeys, luokka.nimi
+                FROM askare, askareenluokka, luokka
+                WHERE
+                    askare.id = askareenluokka.askare_id AND
+                    luokka.id = askareenluokka.luokka_id AND
+                    askare.kayttaja_id = ? AND
+                    luokka.id = ?
+                ORDER BY askare.kuvaus
+                ');
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($kayttaja_id, $luokka_id));
             
+        $askareet = array();
+        $kayttaja = Kayttaja::get_kayttaja($kayttaja_id);
+        foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
+            $askare = new Askare($tulos->id, $kayttaja, $tulos->kuvaus, $tulos->tarkeys);
+            $askare->set_luokat(array($tulos->nimi));
+            $askareet[] = $askare;   
+        }
+
+        return $askareet;
+    }
+
 
     private function aseta_luokkaviittauset($askareet, $luokat) {
         $sql = 'SELECT askare_id, luokka_id from askareidenluokat';

@@ -8,5 +8,15 @@ if (!kirjautunut()) {
     header('Location: kirjaudu.php');
 }
 
+if (empty($data->luokat)) {
 naytaNakyma('askarelistaus.php', array('navbar' => 0,
         'askareet' => Askare::get_kayttajan_askareet($_SESSION['kirjautunut_kayttaja_id'])));
+}
+
+$askareet = array();
+
+foreach ($data->luokat as $luokka_id) {
+    $askareet[] = Askare::get_kayttajan_askareet_luokan_mukaan($_SESSION['kirjautunut_kayttaja_id'], $luokka_id);
+}
+
+naytaNakyma('askarelistaus.php', array('navbar' => 0, 'askareet' => $askareet));

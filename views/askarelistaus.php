@@ -1,6 +1,6 @@
 <div class="btn-group">
     <button type="button" class="btn btn-default">
-        <a href="suodata.html">Suodata</a>
+        <a href="suodata.php">Suodata</a>
     </button>
 </div>
 <div>
