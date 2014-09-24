@@ -84,7 +84,7 @@ class Askare {
                     askare.kayttaja_id = ? AND
                     luokka.id = ?
                 ORDER BY askare.kuvaus
-                ');
+                ';
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($kayttaja_id, $luokka_id));
             
