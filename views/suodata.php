@@ -1,5 +1,5 @@
 <h2>Luokat</h2>
-<form action="suodata.php" method="POST">
+<form action="askarelistaus.php" method="POST">
     <table class="table">
         <?php foreach($data->luokat as $luokka) : ?>
             <tr> <td><input type="checkbox" name="<?php echo $luokka->get_id() ?>"></td><td>
