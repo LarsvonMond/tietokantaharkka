@@ -1,6 +1,6 @@
 <h1>Lisää askare</h1>
     <form action="lisaa_askare.php" method="POST">
-        <input type="text" class="form-control" placeholder="Askare">
+        <input type="text" class="form-control" name="kuvaus" placeholder="Askare">
     <h3>Tärkeys<h3>
     <div class="radio">
         <label>
@@ -39,7 +39,7 @@
                 </td>
             </tr>
             <?php foreach($data->luokat as $luokka) : ?>
-                <tr> <td><input type="checkbox"></td><td>
+                <tr> <td><input type="checkbox" name="<?php echo $luokka->get_id(); ?>"></td><td>
                 <?php echo $luokka->get_nimi() ?></td><td></td></tr> 
             <?php endforeach; ?>
     </table>
