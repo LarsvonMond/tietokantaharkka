@@ -1,5 +1,5 @@
 <h1>Lisää askare</h1>
-    <form action="kirjaudu.php" method="POST">
+    <form action="lisaa_askare.php" method="POST">
         <input type="text" class="form-control" placeholder="Askare">
     <h3>Tärkeys<h3>
     <div class="radio">
@@ -44,4 +44,4 @@
             <?php endforeach; ?>
     </table>
     <button class="btn btn-default" type="submit">Lisää</button>
-</form>
+    </form>
