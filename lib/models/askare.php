@@ -9,12 +9,10 @@ class Askare {
     private $kuvaus;
     private $tarkeys;
     private $luokat;
+    private $virheet;
 
-    public function __construct($id, $kayttaja, $kuvaus, $tarkeys) {
-        $this->id = $id;
-        $this->kayttaja = $kayttaja;
-        $this->kuvaus = $kuvaus;
-        $this->tarkeys = $tarkeys;
+    public function __construct() {
+        $this->virheet = array();
         $this->luokat = array();
     }
 
@@ -33,10 +31,11 @@ class Askare {
             if (isset($kayttaja)) {
                 throw new Exception('Ei id:n mukaista käyttäjää');
             }
-            $kuvaus = $tulos->kuvaus;
-            $tarkeys = $tulos->tarkeys;
-
-            $askare = new Askare($id, $kayttaja, $kuvaus, $tarkeys);
+            $askare = new Askare();
+            $askare->set_id($id);
+            $askare->set_kayttaja($kayttaja);
+            $askare->set_kuvaus($tulos->kuvaus);
+            $askare->set_tarkeys($tulos->tarkeys);
             $tulokset[] = $askare;
         }
 
@@ -65,9 +64,12 @@ class Askare {
         $kysely->execute(array($kayttaja_id, $kayttaja_id));
 
         $askareet = array();
-        $kayttaja = Kayttaja::get_kayttaja($kayttaja_id);
         foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
-            $askare = new Askare($tulos->id, $kayttaja, $tulos->kuvaus, $tulos->tarkeys);
+            $askare = new Askare();
+            $askare->set_id($tulos->id);
+            $askare->set_kayttaja(Kayttaja::get_kayttaja($kayttaja_id));
+            $askare->set_kuvaus($tulos->kuvaus);
+            $askare->set_tarkeys($tulos->tarkeys);
             $askare->set_luokat(array($tulos->nimi));
             $askareet[] = $askare;   
         }
@@ -89,9 +91,12 @@ class Askare {
         $kysely->execute(array($kayttaja_id, $luokka_id));
             
         $askareet = array();
-        $kayttaja = Kayttaja::get_kayttaja($kayttaja_id);
         foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
-            $askare = new Askare($tulos->id, $kayttaja, $tulos->kuvaus, $tulos->tarkeys);
+            $askare = new Askare();
+            $askare->set_id($tulos->id);
+            $askare->set_kayttaja(Kayttaja::get_kayttaja($kayttaja_id));
+            $askare->set_kuvaus($tulos->kuvaus);
+            $askare->set_tarkeys($tulos->tarkeys);
             $askare->set_luokat(array($tulos->nimi));
             $askareet[] = $askare;   
         }
@@ -118,7 +123,28 @@ class Askare {
             }
         }
     }
-            
+
+    public function lisaa_kantaan() {
+        $sql = 'INSERT INTO askare(kuvaus, tarkeys, kayttaja_id)
+                VALUES (?,?,?)
+                RETURNING id';
+        $kysely = getTietokantayhteys()->prepare($sql);
+
+        $ok = $kysely->execute(array($this->get_kuvaus(), $this->get_tarkeys(), $this->get_kayttaja()->get_id()));
+
+        if ($ok) {
+            $this->id = $kysely->fetchColumn();
+        }
+        return $ok;
+    }
+
+    public function kelvollinen() {
+        return !empty($this->virheet);
+    }
+
+    public function get_virheet() {
+        return $this->virheet;
+    }
 
     /* Getterit ja setterit */
 
@@ -133,18 +159,38 @@ class Askare {
     }
     public function set_kayttaja($value) {
         $this->kayttaja = $value;
+        
+        if($value instanceof Kayttaja) {
+            if(!(Kayttaja::etsi($value->get_id()) == null)) {
+                unset($this->virheet['kayttaja']);
+            }
+        } else {
+            $this->virheet['kayttaja'] = 'Käyttäjää ei löydy';
+        }
     }
     public function get_kuvaus() {
         return $this->kuvaus;
     }
     public function set_kuvaus($value) {
         $this->kuvaus = $value;
+
+        if(trim($value) == '') {
+            $this->virheet['kuvaus'] = 'Kuvaus ei saa olla tyhjä';
+        }else{
+            unset($this->virheet['kuvaus']);
+        }
     }
     public function get_tarkeys() {
         return $this->tarkeys;
     }
     public function set_tarkeys($value) {
         $this->tarkeys = $value;
+
+        if(!is_numeric($value) {
+            $this->virheet['tarkeys'] = 'Tärkeyden täytyy olla numeerinen';
+        }else{
+            unset($this->virheet['tarkeys']);
+        }
     }
     public function get_luokat() {
         return $this->luokat;
