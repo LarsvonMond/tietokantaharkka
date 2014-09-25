@@ -31,9 +31,20 @@ if (isset($_POST['kuvaus'])) {
         naytaNakyma('muokkaa_askaretta.php', array('navbar' => 1, 'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id']), 'virheet' => $virheet, 'askare' => $askare));
     }
 }
-else {    
+if(isset($_POST['delete'])) {
+    $askare = Askare::etsi((int)$_POST['id']);
+    if($askare->delete()) {
+        $_SESSION['ilmoitus'] = 'Askare poistettu.';
+    }
+    else{
+        $_SESSION['virheet'] = array('Poistaminen epäonnistui.');
+    }
+    header('Location: askarelistaus.php');
+}
 
+else {
     $askare = Askare::etsi((int)$_GET['id']);
+        
 
     naytaNakyma('muokkaa_askaretta.php', array('navbar' => 1, 'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id']), 'askare' => $askare));
 }

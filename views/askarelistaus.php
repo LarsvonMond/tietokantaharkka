@@ -15,7 +15,13 @@
             <td><?php echo $askare->get_tarkeys(); ?></td>
             <td><a href="muokkaa_askaretta.php?id=<?php echo $askare->get_id(); ?>">
                 Muokkaa</a>
-            <td><a href="#">Poista</a></td></tr>
+            <td>
+                <form action="muokkaa_askaretta.php" method="POST">
+                    <input type="hidden" name="id" value="<?php echo $askare->get_id(); ?>">
+                    <input type="hidden" name="delete" value="TRUE">
+                    <button class="btn btn-default" type="submit">Poista</button>
+                </form>
+            </td></tr>
         <?php endforeach; ?>
     </table>
 </div>

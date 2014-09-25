@@ -162,6 +162,16 @@ class Askare {
         $kysely = getTietokantayhteys()->prepare($sql);
         return $kysely->execute(array($this->get_id(), $luokka_id));
     }
+    
+    public function delete() {
+        if($this->get_kayttaja()->get_id() == $_SESSION['kirjautunut_kayttaja_id']) {
+            $sql = 'DELETE FROM askare WHERE id = ?';
+            $poistokysely = getTietokantayhteys()->prepare($sql);
+            $poistokysely->execute(array($this->get_id()));
+            return TRUE;
+        }
+        return FALSE;
+    }
 
     private function poista_luokkaviittaukset() {
         $sql = 'SELECT askareenluokka.id
