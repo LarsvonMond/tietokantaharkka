@@ -64,6 +64,15 @@ class Luokka {
         return $luokat;
     }
 
+    public static function etsi_nimi($id) {
+        $sql = 'SELECT nimi 
+                FROM luokka
+                WHERE id = ?';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($id));
+        return $kysely->fetchObject()->nimi;
+    }
+
 
     /* Getterit ja setterit */
     public function get_yliluokka_nimi() {

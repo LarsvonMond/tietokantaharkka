@@ -1,9 +1,7 @@
 <?php
 
-require_once 'lib/common.php';
-require_once 'lib/models/luokka.php';
 require_once 'lib/models/askare.php';
-require_once 'lib/models/kayttaja.php';
+require_once 'lib/models/luokka.php';
 
 if (!kirjautunut()) {
     header('Location: kirjaudu.php');
@@ -23,15 +21,18 @@ if (isset($_POST['kuvaus'])) {
     }
     $askare->set_luokat($luokat);
     if ($askare->kelvollinen()) {
-        $askare->lisaa_kantaan();
-        $_SESSION['ilmoitus'] = 'Askare lisätty.';
+        $askare->update();
+        $_SESSION['ilmoitus'] = 'Muutokset tallennettu.';
         header('Location: askarelistaus.php');
     }
     else{
         $virheet = $askare->get_virheet();
-        naytaNakyma('lisaa_askare.php', array('navbar' => 1, 'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id']), 'virheet' => $virheet, 'askare' => $askare));
+        naytaNakyma('muokkaa_askaretta.php', array('navbar' => 1, 'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id']), 'virheet' => $virheet, 'askare' => $askare));
     }
 }    
 
-naytaNakyma('lisaa_askare.php', array('navbar' => 1, 'askare' => new Askare(),
-     'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id'])));
+$askare = Askare::etsi((int)$_GET['id']);
+
+naytaNakyma('muokkaa_askaretta.php', array('navbar' => 1, 'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id']), 'askare' => $askare));
+
+

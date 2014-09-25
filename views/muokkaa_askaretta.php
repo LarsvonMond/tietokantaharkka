@@ -1,5 +1,5 @@
-<h1>Lisää askare</h1>
-    <form action="lisaa_askare.php" method="POST">
+<h1>Muokkaa askaretta</h1>
+    <form action="muokkaa_askaretta.php" method="POST">
         <input type="text" class="form-control" name="kuvaus" placeholder="Askare"
             value="<?php echo htmlspecialchars($data->askare->get_kuvaus()); ?>">
     <h3>Tärkeys<h3>
@@ -61,5 +61,5 @@
                 <?php echo $luokka->get_nimi() ?></td><td></td></tr> 
             <?php endforeach; ?>
     </table>
-    <button class="btn btn-default" type="submit">Lisää</button>
+    <button class="btn btn-default" type="submit">Tallenna</button>
     </form>

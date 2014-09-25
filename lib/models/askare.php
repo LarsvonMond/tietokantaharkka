@@ -1,6 +1,8 @@
 <?php
 
 require_once 'lib/common.php';
+require_once 'lib/models/kayttaja.php';
+require_once 'lib/models/luokka.php';
 
 class Askare {
     
@@ -104,6 +106,37 @@ class Askare {
         return $askareet;
     }
 
+    public static function etsi($id) {
+        $sql = 'SELECT askare.kuvaus, askare.tarkeys, kayttaja.id
+                FROM askare, kayttaja
+                WHERE
+                    askare.kayttaja_id = kayttaja.id AND
+                    askare.id = ?
+                ';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($id));
+        $tulos = $kysely->fetchObject();
+        $askare = new Askare();
+        $askare->set_id($id);
+        $askare->set_kayttaja(Kayttaja::get_kayttaja($tulos->id));
+        $askare->set_kuvaus($tulos->kuvaus);
+        $askare->set_tarkeys($tulos->tarkeys);
+        $sql = 'SELECT luokka.id
+                FROM askare, askareenluokka, luokka
+                WHERE
+                    askare.id = askareenluokka.askare_id AND
+                    luokka.id = askareenluokka.luokka_id AND
+                    askare.id = ?
+                ';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($id));
+        $luokka_idt = array();
+        foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
+            $luokka_idt[] = $tulos->id;
+        }
+        $askare->set_luokat($luokka_idt);
+        return $askare;
+    }
 
     private function aseta_luokkaviittauset($askareet, $luokat) {
         $sql = 'SELECT askare_id, luokka_id from askareidenluokat';
@@ -130,18 +163,51 @@ class Askare {
         return $kysely->execute(array($this->get_id(), $luokka_id));
     }
 
+    private function poista_luokkaviittaukset() {
+        $sql = 'SELECT askareenluokka.id
+                FROM askare, luokka, askareenluokka
+                WHERE 
+                    askare.id = askareenluokka.askare_id AND
+                    luokka.id = askareenluokka.luokka_id AND
+                    askare.id = ?';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($this->get_id()));
+        foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
+            $sql = 'DELETE FROM askareenluokat WHERE id = ?';
+            $poistokysely = getTietokantayhteys()->prepare($sql);
+            $poistokysely->execute(array($tulos->id));
+        }
+    }
+    
+    private function paivita_luokkaviittaukset() {
+        $this->poista_luokkaviittaukset();
+        foreach($this->luokat as $luokka_id) {
+            lisaa_luokkaviittaus_kantaan($luokka_id);
+        }
+    }
+
+    public function update() {
+        $sql = 'UPDATE askare
+                SET kuvaus = ?,
+                    tarkeys = ?
+                WHERE id = ?';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $ok = $kysely->execute(array($this->get_kuvaus(),
+                                     $this->get_tarkeys(),
+                                     $this->get_id()
+                                    ));
+        if($ok) {
+            $this->paivita_luokkaviittaukset();
+        }
+        return $ok;
+    }
+        
+
     public function lisaa_kantaan() {
         $sql = 'INSERT INTO askare(kuvaus, tarkeys, kayttaja_id)
                 VALUES (?,?,?)
                 RETURNING id';
         $kysely = getTietokantayhteys()->prepare($sql);
-
-        echo $this->get_kuvaus();
-        echo $this->get_tarkeys();
-        echo $this->get_kayttaja()->get_id();
-
-
-
         $ok = $kysely->execute(array($this->get_kuvaus(), 
                                      $this->get_tarkeys(), 
                                      $this->get_kayttaja()->get_id()

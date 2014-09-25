@@ -13,6 +13,8 @@
                     </a>
                 <?php endforeach; ?></td>
             <td><?php echo $askare->get_tarkeys(); ?></td>
+            <td><a href="muokkaa_askaretta.php?id=<?php echo $askare->get_id(); ?>">
+                Muokkaa</a>
             <td><a href="#">Poista</a></td></tr>
         <?php endforeach; ?>
     </table>
