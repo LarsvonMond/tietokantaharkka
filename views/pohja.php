@@ -13,6 +13,12 @@
                 <div class="alert alert-danger"><?php echo $virhe; ?></div>
             <?php endforeach; ?>
         <?php endif; ?>
+        <?php if (isset($_SESSION['ilmoitus'])): ?>
+            <div class="alert alert-danger">
+                <?php echo $_SESSION['ilmoitus']; ?>
+            </div>
+            <?php unset($_SESSION['ilmoitus']); ?>
+         <?php endif; ?>
 
         <h1>Muistilista</h1>    
 

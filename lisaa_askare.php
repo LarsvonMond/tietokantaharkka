@@ -24,13 +24,14 @@ if (isset($_POST['kuvaus'])) {
     $askare->set_luokat($luokat);
     if ($askare->kelvollinen()) {
         $askare->lisaa_kantaan();
+        $_SESSION['ilmoitus'] = 'Askare lisätty.';
         header('Location: askarelistaus.php');
     }
     else{
         $virheet = $askare->get_virheet();
-        naytaNakyma('lisaa_askare.php', array('navbar' => 1, 'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id']), 'virheet' => $virheet));
+        naytaNakyma('lisaa_askare.php', array('navbar' => 1, 'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id']), 'virheet' => $virheet, 'askare' => $askare));
     }
 }    
 
-naytaNakyma('lisaa_askare.php', array('navbar' => 1,
+naytaNakyma('lisaa_askare.php', array('navbar' => 1, 'askare' => new Askare(),
      'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id'])));

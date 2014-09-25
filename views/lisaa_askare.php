@@ -1,6 +1,7 @@
 <h1>Lisää askare</h1>
     <form action="lisaa_askare.php" method="POST">
-        <input type="text" class="form-control" name="kuvaus" placeholder="Askare">
+        <input type="text" class="form-control" name="kuvaus" placeholder="Askare"
+            value="<?php echo htmlspecialchars($data->askare->get_kuvaus()); ?>">
     <h3>Tärkeys<h3>
     <div class="radio">
         <label>
@@ -27,19 +28,21 @@
     <table class="table">
             <tr> <td>Uusi luokka</td><td><input type="text" class="form-control" placeholder="Luokka"></td>
                 <td>
-                    <div class="dropdown">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">Yliluokka<span class="caret"></span></button>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                            <?php foreach($data->luokat as $luokka) : ?>
-                                <li role="presentation"><a href="#">
-                                    <?php echo $luokka->get_nimi() ?></a></li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
+                    <label>Yliluokka</label>
+                    <select name="yliluokka_id">
+                    <?php foreach($data->luokat as $luokka) : ?>
+                        <option value="<?php echo $luokka->get_id(); ?>">
+                            <?php echo $luokka->get_nimi(); ?>
+                        </option>
+                    <?php endforeach; ?>
+                    </select>
                 </td>
             </tr>
             <?php foreach($data->luokat as $luokka) : ?>
-                <tr> <td><input type="checkbox" name="<?php echo $luokka->get_id(); ?>"></td><td>
+                <tr> <td><input type="checkbox" name="<?php echo $luokka->get_id(); ?>"
+                            <?php if (in_array($luokka->get_id(), $data->askare->get_luokat())): ?>
+                                checked
+                            <?php endif; ?>></td><td>
                 <?php echo $luokka->get_nimi() ?></td><td></td></tr> 
             <?php endforeach; ?>
     </table>
