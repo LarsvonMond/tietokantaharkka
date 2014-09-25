@@ -2,6 +2,8 @@
     <form action="muokkaa_askaretta.php" method="POST">
         <input type="text" class="form-control" name="kuvaus" placeholder="Askare"
             value="<?php echo htmlspecialchars($data->askare->get_kuvaus()); ?>">
+    
+    <input type="hidden" name="id" value="<?php echo $data->askare->get_id(); ?>">
     <h3>Tärkeys<h3>
     <div class="radio">
         <label>

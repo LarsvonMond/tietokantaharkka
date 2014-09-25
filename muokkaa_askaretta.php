@@ -9,6 +9,7 @@ if (!kirjautunut()) {
 
 if (isset($_POST['kuvaus'])) {
     $askare = new Askare();
+    $askare->set_id($_POST['id']);
     $askare->set_kuvaus(htmlspecialchars($_POST['kuvaus']));
     $askare->set_tarkeys($_POST['tarkeys']);
     $askare->set_kayttaja(Kayttaja::get_kayttaja($_SESSION['kirjautunut_kayttaja_id']));
@@ -29,10 +30,11 @@ if (isset($_POST['kuvaus'])) {
         $virheet = $askare->get_virheet();
         naytaNakyma('muokkaa_askaretta.php', array('navbar' => 1, 'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id']), 'virheet' => $virheet, 'askare' => $askare));
     }
-}    
+}
+else {    
 
-$askare = Askare::etsi((int)$_GET['id']);
+    $askare = Askare::etsi((int)$_GET['id']);
 
-naytaNakyma('muokkaa_askaretta.php', array('navbar' => 1, 'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id']), 'askare' => $askare));
-
+    naytaNakyma('muokkaa_askaretta.php', array('navbar' => 1, 'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id']), 'askare' => $askare));
+}
 

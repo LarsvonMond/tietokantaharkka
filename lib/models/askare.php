@@ -173,7 +173,7 @@ class Askare {
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($this->get_id()));
         foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
-            $sql = 'DELETE FROM askareenluokat WHERE id = ?';
+            $sql = 'DELETE FROM askareenluokka WHERE id = ?';
             $poistokysely = getTietokantayhteys()->prepare($sql);
             $poistokysely->execute(array($tulos->id));
         }
@@ -182,7 +182,7 @@ class Askare {
     private function paivita_luokkaviittaukset() {
         $this->poista_luokkaviittaukset();
         foreach($this->luokat as $luokka_id) {
-            lisaa_luokkaviittaus_kantaan($luokka_id);
+            $this->lisaa_luokkaviittaus_kantaan($luokka_id);
         }
     }
 
