@@ -8,8 +8,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <?php if (!empty($data->virhe)): ?>
-            <div class="alert alert-danger"><?php echo $data->virhe; ?></div>
+        <?php if (!empty($data->virheet)): ?>
+            <?php foreach($data->virheet as $virhe) : ?>
+                <div class="alert alert-danger"><?php echo $virhe; ?></div>
+            <?php endforeach; ?>
         <?php endif; ?>
 
         <h1>Muistilista</h1>    

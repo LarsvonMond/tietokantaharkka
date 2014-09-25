@@ -4,23 +4,23 @@
     <h3>Tärkeys<h3>
     <div class="radio">
         <label>
-        <input type="radio" name="tarkeys">1</label>
+        <input type="radio" name="tarkeys" value="1">1</label>
     </div>
     <div class="radio">
         <label>
-        <input type="radio" name="tarkeys">2</label>
+        <input type="radio" name="tarkeys" value="2">2</label>
     </div>
     <div class="radio">
         <label>
-        <input type="radio" name="tarkeys">3</label>
+        <input type="radio" name="tarkeys" value="3">3</label>
     </div>
     <div class="radio">
         <label>
-        <input type="radio" name="tarkeys">4</label>
+        <input type="radio" name="tarkeys" value="4">4</label>
     </div>
     <div class="radio">
         <label>
-        <input type="radio" name="tarkeys">5</label>
+        <input type="radio" name="tarkeys" value="5">5</label>
     </div>
 
     <h2>Luokat</h2>

@@ -16,10 +16,17 @@ class Kayttaja {
         $this->admin = $admin;
     }
 
+    public static function etsi($kayttaja_id) {
+        $sql = 'SELECT id from kayttaja';
+        $kysely = getTietokantayhteys()->prepare($sql); $kysely->execute();
+        $tulos = $kysely->fetchObject();
+        return $tulos->id;
+    }
+
     public static function get_kayttajat() {
         $sql = 'SELECT id, kayttajatunnus, salasana, admin from kayttaja';
         $kysely = getTietokantayhteys()->prepare($sql); $kysely->execute();
-        
+         
         $tulokset = array();
         foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
             $id = $tulos->id;

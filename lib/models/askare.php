@@ -123,6 +123,12 @@ class Askare {
             }
         }
     }
+    public function lisaa_luokkaviittaus_kantaan($luokka_id) {
+        $sql = 'INSERT INTO askareenluokka(askare_id, luokka_id)
+                VALUES (?,?)';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        return $kysely->execute(array($this->get_id(), $luokka_id));
+    }
 
     public function lisaa_kantaan() {
         $sql = 'INSERT INTO askare(kuvaus, tarkeys, kayttaja_id)
@@ -130,16 +136,29 @@ class Askare {
                 RETURNING id';
         $kysely = getTietokantayhteys()->prepare($sql);
 
-        $ok = $kysely->execute(array($this->get_kuvaus(), $this->get_tarkeys(), $this->get_kayttaja()->get_id()));
+        echo $this->get_kuvaus();
+        echo $this->get_tarkeys();
+        echo $this->get_kayttaja()->get_id();
+
+
+
+        $ok = $kysely->execute(array($this->get_kuvaus(), 
+                                     $this->get_tarkeys(), 
+                                     $this->get_kayttaja()->get_id()
+                                    )
+                              );
 
         if ($ok) {
             $this->id = $kysely->fetchColumn();
+            foreach($this->luokat as $luokka_id) {
+                $this->lisaa_luokkaviittaus_kantaan($luokka_id);
+            }
         }
         return $ok;
     }
 
     public function kelvollinen() {
-        return !empty($this->virheet);
+        return empty($this->virheet);
     }
 
     public function get_virheet() {
@@ -186,7 +205,7 @@ class Askare {
     public function set_tarkeys($value) {
         $this->tarkeys = $value;
 
-        if(!is_numeric($value) {
+        if(!is_numeric($value)) {
             $this->virheet['tarkeys'] = 'Tärkeyden täytyy olla numeerinen';
         }else{
             unset($this->virheet['tarkeys']);
