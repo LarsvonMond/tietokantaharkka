@@ -16,17 +16,19 @@ if (isset($_POST['kuvaus'])) {
     $luokka_idt = array();
 
     if (isset($_POST['uusi_luokka'])) {
-        $luokan_nimi = $_POST['uusi_luokka'];
-        $luokka = Luokka::get_luokka_nimella($luokan_nimi);
-        if (!$luokka) {
-            $luokka = new Luokka();
-            $luokka->set_nimi(htmlspecialchars($luokan_nimi));
-            $luokka->set_yliluokka_id($_POST['yliluokka_id']);
-            if (TRUE) {            
-                $luokka->lisaa_kantaan();
+        $luokan_nimi = trim($_POST['uusi_luokka']);
+        if(!(trim($luokan_nimi) == ''))) {
+            $luokka = Luokka::get_luokka_nimella($luokan_nimi);
+            if (!$luokka) {
+                $luokka = new Luokka();
+                $luokka->set_nimi(htmlspecialchars($luokan_nimi));
+                $luokka->set_yliluokka_id($_POST['yliluokka_id']);
+                if (TRUE) {            
+                    $luokka->lisaa_kantaan();
+                }
             }
+            $luokka_idt[] = $luokka->get_id();
         }
-        $luokka_idt[] = $luokka->get_id();
     }
 
 
