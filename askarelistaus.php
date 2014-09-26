@@ -19,9 +19,9 @@ foreach(Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id']) as $l
 }
 
 if ($askareet) {
-    naytaNakyma('askarelistaus.php', array('navbar' => 0, 'askareet' => $askareet));
+    naytaNakyma('askarelistaus.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 0, 'askareet' => $askareet));
 }
 
-naytaNakyma('askarelistaus.php', array('navbar' => 0,
+naytaNakyma('askarelistaus.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 0,
         'askareet' => Askare::get_kayttajan_askareet($_SESSION['kirjautunut_kayttaja_id'])));
 
