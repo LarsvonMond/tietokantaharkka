@@ -17,7 +17,7 @@ if (isset($_POST['kuvaus'])) {
 
     if (isset($_POST['uusi_luokka'])) {
         $luokan_nimi = trim($_POST['uusi_luokka']);
-        if(!(trim($luokan_nimi) == ''))) {
+        if(!(trim($luokan_nimi) == '')) {
             $luokka = Luokka::get_luokka_nimella($luokan_nimi);
             if (!$luokka) {
                 $luokka = new Luokka();
@@ -40,6 +40,7 @@ if (isset($_POST['kuvaus'])) {
     $askare->set_luokat($luokka_idt);
     if ($askare->kelvollinen()) {
         $askare->update();
+        Luokka::poista_turhat();
         $_SESSION['ilmoitus'] = 'Muutokset tallennettu.';
         header('Location: askarelistaus.php');
     }
@@ -52,6 +53,7 @@ else {
     if(isset($_POST['delete'])) {
         $askare = Askare::etsi((int)$_POST['id']);
         if($askare->delete()) {
+            Luokka::poista_turhat();
             $_SESSION['ilmoitus'] = 'Askare poistettu.';
         }
         else{

@@ -107,6 +107,14 @@ class Luokka {
         return empty($this->virheet);
     }
 
+    public static function poista_turhat() {
+        $sql = 'DELETE FROM luokka WHERE luokka.id NOT IN
+                   (SELECT luokka.id
+                    FROM luokka, askareenluokka
+                    WHERE luokka.id = askareenluokka.luokka_id)';
+        $poistokysely = getTietokantayhteys()->prepare($sql);
+        $poistokysely->execute();
+    }
 
     /* Getterit ja setterit */
     public function get_yliluokka_nimi() {
