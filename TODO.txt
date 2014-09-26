@@ -5,3 +5,4 @@
 5. Kirjautunut käyttäjä pääsee login-sivulle
 6. Askarelistaus tärkeysjärjestyksessä
 7. Eri käyttäjät voivat asettaa ristiriitaisia yliluokkia
+8. Väärällä syötteellä uusi luokka ei näy askareenilsäyslomakkeessa
