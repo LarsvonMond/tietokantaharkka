@@ -8,11 +8,10 @@ class Luokka {
     private $nimi;
     private $yliluokka;
     private $yliluokka_id;
+    private $virheet;
 
-    public function __construct($id, $nimi, $yliluokka_id) {
-        $this->id = $id;
-        $this->nimi = $nimi;
-        $this->yliluokka_id = $yliluokka_id; 
+    public function __construct() {
+        $this->virheet = array();
         
     }
 
@@ -41,6 +40,32 @@ class Luokka {
         return $tulokset;
     }
 
+    public static function get_luokka_nimella($luokan_nimi) {
+        $sql = 'SELECT id, nimi, yliluokka_id
+                FROM luokka
+                WHERE nimi = ?';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($luokan_nimi));
+        $tulos = $kysely->fetchObject();
+        if ($tulos == null) {
+            return null;
+        }
+        $luokka = new Luokka();
+        $luokka->set_id($tulos->id);
+        $luokka->set_nimi($tulos->nimi);
+        $luokka->set_yliluokka_id($tulos->yliluokka_id);
+        return $luokka;
+    }
+
+    public function lisaa_kantaan() {
+        $sql = 'INSERT INTO luokka(nimi, yliluokka_id) VALUES (?,?) RETURNING id';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $ok = $kysely->execute(array($this->get_nimi(), $this->get_yliluokka_id()));
+        $this->id = $kysely->fetchColumn();
+        return $ok;
+    }
+        
+
     public static function get_kayttajan_luokat($kayttaja_id) {
         $sql = 'SELECT DISTINCT luokka.id, luokka.nimi, luokka.yliluokka_id
                 FROM 
@@ -55,10 +80,11 @@ class Luokka {
         $kysely->execute(array($kayttaja_id));
         $luokat = array();
         foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
-            $id = $tulos->id;
-            $nimi = $tulos->nimi;
-            $yliluokka_id = $tulos->yliluokka_id;
-            $luokat[] = new Luokka($id, $nimi, $yliluokka_id);
+            $luokka = new Luokka();
+            $luokka->set_id($tulos->id);
+            $luokka->set_nimi($tulos->nimi);
+            $luokka->set_yliluokka_id($tulos->yliluokka_id);
+            $luokat[] = $luokka;
         }
 
         return $luokat;
@@ -70,7 +96,15 @@ class Luokka {
                 WHERE id = ?';
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($id));
-        return $kysely->fetchObject()->nimi;
+        $tulos = $kysely->fetchObject();
+        if ($tulos == null) {
+            return null;
+        }
+        return $kysely->fetchColumn();
+    }
+
+    public function kelvollinen() {
+        return empty($this->virheet);
     }
 
 
@@ -101,6 +135,12 @@ class Luokka {
     }
     public function set_nimi($value) {
         $this->nimi = $value;
+
+        if(trim($value) == '') {
+            $this->virheet['nimi'] = 'Nimi ei saa olla tyhjä';
+        }else{
+            unset($this->virheet['nimi']);
+        }
     }
     public function get_yliluokka() {
         return $this->yliluokka;
@@ -113,5 +153,12 @@ class Luokka {
     }
     public function set_yliluokka_id($value) {
         $this->yliluokka_id = $value;
+    
+        $nimi = Luokka::etsi_nimi($value);
+        if (empty($nimi)) {
+            $this->virheet['yliluokka_id'] = 'Yliluokkaa ei ole olemassa';
+        }else{
+            unset($this->virheet['yliluokka_id']);
+        }
     }
 }

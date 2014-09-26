@@ -43,7 +43,8 @@
 
     <h2>Luokat</h2>
     <table class="table">
-            <tr> <td>Uusi luokka</td><td><input type="text" class="form-control" placeholder="Luokka"></td>
+            <tr> 
+                <td>Uusi luokka</td><td><input type="text" name="uusi_luokka" placeholder="Luokka"></td>
                 <td>
                     <label>Yliluokka</label>
                     <select name="yliluokka_id">
