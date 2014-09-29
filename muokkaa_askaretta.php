@@ -46,7 +46,7 @@ if (isset($_POST['kuvaus'])) {
     }
     else{
         $virheet = $askare->get_virheet();
-        naytaNakyma('muokkaa_askaretta.php', array('navbar' => 1, 'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id']), 'virheet' => $virheet, 'askare' => $askare));
+        naytaNakyma('muokkaa_askaretta.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 1, 'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id']), 'virheet' => $virheet, 'askare' => $askare));
     }
 }
 else {
@@ -66,7 +66,7 @@ else {
         $askare = Askare::etsi((int)$_GET['id']);
             
 
-        naytaNakyma('muokkaa_askaretta.php', array('navbar' => 1, 'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id']), 'askare' => $askare));
+        naytaNakyma('muokkaa_askaretta.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 1, 'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id']), 'askare' => $askare));
     }
 }
 

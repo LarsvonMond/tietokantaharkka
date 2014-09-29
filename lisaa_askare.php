@@ -45,9 +45,9 @@ if (isset($_POST['kuvaus'])) {
     }
     else{
         $virheet = $askare->get_virheet();
-        naytaNakyma('lisaa_askare.php', array('navbar' => 1, 'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id']), 'virheet' => $virheet, 'askare' => $askare));
+        naytaNakyma('lisaa_askare.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 1, 'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id']), 'virheet' => $virheet, 'askare' => $askare));
     }
 }    
 
-naytaNakyma('lisaa_askare.php', array('navbar' => 1, 'askare' => new Askare(),
+naytaNakyma('lisaa_askare.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 1, 'askare' => new Askare(),
      'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id'])));

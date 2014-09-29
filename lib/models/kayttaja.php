@@ -9,11 +9,8 @@ class Kayttaja {
     private $salasana;
     private $admin;
 
-    public function __construct($id, $kayttajatunnus, $salasana, $admin) {
-        $this->id = $id;
-        $this->kayttajatunnus = $kayttajatunnus;
-        $this->salasana = $salasana;
-        $this->admin = $admin;
+    public function __construct() {
+
     }
 
     public static function etsi($kayttaja_id) {
@@ -29,11 +26,11 @@ class Kayttaja {
          
         $tulokset = array();
         foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
-            $id = $tulos->id;
-            $kayttajatunnus = $tulos->kayttajatunnus;
-            $salasana = $tulos->salasana;
-            $admin = $tulos->admin;
-            $kayttaja = new Kayttaja($id, $kayttajatunnus, $salasana, $admin);
+            $kayttaja = new Kayttaja();
+            $kayttaja->set_id($tulos->id);
+            $kayttaja->set_kayttajatunnus($tulos->kayttajatunnus);
+            $kayttaja->set_salasana($tulos->salasana);
+            $kayttaja->set_admin($tulos->admin);
             $tulokset[] = $kayttaja;
         }
         return $tulokset;
@@ -44,10 +41,12 @@ class Kayttaja {
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($id));
         $tulos = $kysely->fetchObject();
-        $kayttajatunnus = $tulos->kayttajatunnus;
-        $salasana = $tulos->salasana;
-        $admin = $tulos->admin;
-        return new Kayttaja($id, $kayttajatunnus, $salasana, $admin);
+        $kayttaja = new Kayttaja();
+        $kayttaja->set_id($tulos->id);
+        $kayttaja->set_kayttajatunnus($tulos->kayttajatunnus);
+        $kayttaja->set_salasana($tulos->salasana);
+        $kayttaja->set_admin($tulos->admin);
+        return $kayttaja;
 }
 
     public static function get_kayttaja_tunnuksilla($kayttajatunnus, $salasana) {
@@ -60,12 +59,22 @@ class Kayttaja {
             return null;
         }
         else {
-            $id = $tulos->id;
-            $admin = $tulos->admin;
-            $kayttaja = new Kayttaja($id, $kayttajatunnus, $salasana, $admin);
+            $kayttaja = new Kayttaja();
+            $kayttaja->set_id($tulos->id);
+            $kayttaja->set_kayttajatunnus($tulos->kayttajatunnus);
+            $kayttaja->set_salasana($tulos->salasana);
+            $kayttaja->set_admin($tulos->admin);
             return $kayttaja;
         }
     }
+
+    public static function onko_admin($id) {
+        $sql = 'SELECT admin FROM kayttaja WHERE id = ? LIMIT 1';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($id));
+        return $kysely->fetchColumn();
+    }
+        
 
     
 
