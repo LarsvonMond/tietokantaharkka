@@ -89,6 +89,13 @@ class Kayttaja {
         return $kysely->fetchColumn();
     }
 
+    public function delete() {
+        $sql = 'DELETE FROM kayttaja WHERE id = ?';
+        $poistokysely = getTietokantayhteys()->prepare($sql);
+        $ok = $poistokysely->execute(array($this->get_id()));
+        return $ok;
+    }
+
     public function update() {
         $sql = 'UPDATE kayttaja
                 SET salasana = ?,

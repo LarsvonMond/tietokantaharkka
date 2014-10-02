@@ -36,6 +36,17 @@ if (isset($_POST['set_admin'])) {
     }
     naytaNakyma('kayttajat.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 4, 'kayttajat' => Kayttaja::get_kayttajat(), 'lisattava_kayttaja' => new Kayttaja()));
 }
+
+if (isset($_POST['delete'])) {
+    if ($_POST['id'] == $_SESSION['kirjautunut_kayttaja_id']) {
+        naytaNakyma('kayttajat.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 4, 'kayttajat' => Kayttaja::get_kayttajat(), 'lisattava_kayttaja' => new Kayttaja(), 'virheet' => array('Et voi poistaa itseäsi.')));
+    }
+    else{
+        $_SESSION['ilmoitus'] = 'Käyttäjä poistettu';
+        Kayttaja::get_kayttaja($_POST['id'])->delete();
+        naytaNakyma('kayttajat.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 4, 'kayttajat' => Kayttaja::get_kayttajat(), 'lisattava_kayttaja' => new Kayttaja()));
+    }
+}
             
 else{
     naytaNakyma('kayttajat.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 4, 'kayttajat' => Kayttaja::get_kayttajat(), 'lisattava_kayttaja' => new Kayttaja()));
