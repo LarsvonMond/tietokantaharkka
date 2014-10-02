@@ -87,19 +87,34 @@ class Askare {
         return $askareet;
     }
 
-    public static function get_kayttajan_askareet_luokan_mukaan($kayttaja_id, $luokka_id) {
-        $sql = 'SELECT askare.id, askare.kuvaus, askare.tarkeys, luokka.nimi
+    public static function get_kayttajan_askareet_luokkien_mukaan($kayttaja_id, $luokka_idt) {
+        if (!$luokka_idt) {
+            return Askare::get_kayttajan_askareet($kayttaja_id);
+        }
+        $sql = 'SELECT DISTINCT askare.id, askare.kuvaus, askare.tarkeys
                 FROM askare, askareenluokka, luokka
-                WHERE
+                WHERE 
                     askare.id = askareenluokka.askare_id AND
                     luokka.id = askareenluokka.luokka_id AND
-                    askare.kayttaja_id = ? AND
-                    luokka.id = ?
-                ORDER BY askare.kuvaus
-                ';
+                    kayttaja_id = ? AND (';
+                    $i = 0;
+                    foreach($luokka_idt as $id) {
+                        $i += 1;
+                        $sql = $sql . ' luokka.id = ?';
+                        if($i < count($luokka_idt)) {
+                            $sql = $sql . ' OR';
+                        }
+                    }
+                $sql = $sql . ')                        
+                ORDER BY
+                    askare.tarkeys';
         $kysely = getTietokantayhteys()->prepare($sql);
-        $kysely->execute(array($kayttaja_id, $luokka_id));
-            
+        $argumentit = array($kayttaja_id);
+        foreach($luokka_idt as $id) {
+            $argumentit[] = $id;
+        }
+        $kysely->execute($argumentit);
+
         $askareet = array();
         foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
             $askare = new Askare();
@@ -107,10 +122,27 @@ class Askare {
             $askare->set_kayttaja(Kayttaja::get_kayttaja($kayttaja_id));
             $askare->set_kuvaus($tulos->kuvaus);
             $askare->set_tarkeys($tulos->tarkeys);
-            $askare->set_luokat(array($tulos->nimi));
+            $askare->set_luokat(array());
             $askareet[] = $askare;   
         }
 
+        $sql = 'SELECT luokka.nimi, askareenluokka.askare_id
+                FROM askare, askareenluokka, luokka
+                WHERE
+                    askare.id = askareenluokka.askare_id AND
+                    luokka.id = askareenluokka.luokka_id AND
+                    askare.kayttaja_id = ?';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($kayttaja_id));
+        foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
+            foreach($askareet as $askare) {
+                if ($askare->get_id() == $tulos->askare_id) {
+                    $uusi_lista = $askare->get_luokat();
+                    $uusi_lista[] = $tulos->nimi;
+                    $askare->set_luokat($uusi_lista);
+                }
+            }
+        }
         return $askareet;
     }
 

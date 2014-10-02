@@ -1,5 +1,5 @@
 1. Askarelistauksessa otsikkorivi yhtä pitkäksi kuin muut rivit
-2. Askarelistaus näyttää askareen useat luokat
+----2. Askarelistaus näyttää askareen useat luokat
 3. Askaretta poistaessa poistuu tarpeettomaksi jääneet luokat
 4. Käyttäjä pääsee muokkaamaan vain omia askareitaan
 5. Kirjautunut käyttäjä pääsee login-sivulle
@@ -14,7 +14,7 @@
 
 
 Prioriteetti:
-2
+----2
 12
 4
 7
