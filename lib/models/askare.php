@@ -46,7 +46,7 @@ class Askare {
     }
 
     public static function get_kayttajan_askareet($kayttaja_id) {
-        $sql = '(SELECT askare.id, askare.kuvaus, askare.tarkeys, luokka.nimi
+        $sql = '((SELECT askare.id, askare.kuvaus, askare.tarkeys, luokka.nimi
                 FROM askare, askareenluokka, luokka
                 WHERE 
                     askare.id = askareenluokka.askare_id AND
@@ -61,7 +61,9 @@ class Askare {
                     askare.kayttaja_id = ? AND
                     askare.id NOT IN 
                    (SELECT askare_id FROM askareenluokka)
-                )';
+                ))
+                ORDER BY
+                    tarkeys';
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($kayttaja_id, $kayttaja_id));
 
