@@ -14,8 +14,8 @@
 
 
 Prioriteetti:
-12
 2
+12
 4
 7
 11
