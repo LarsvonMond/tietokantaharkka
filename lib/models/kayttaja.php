@@ -8,9 +8,11 @@ class Kayttaja {
     private $tunnus;
     private $salasana;
     private $admin;
+    private $virheet;
 
     public function __construct() {
-
+        $this->admin = 0;
+        $this->virheet = array();    
     }
 
     public static function etsi($kayttaja_id) {
@@ -47,7 +49,19 @@ class Kayttaja {
         $kayttaja->set_salasana($tulos->salasana);
         $kayttaja->set_admin($tulos->admin);
         return $kayttaja;
-}
+    }
+    
+    public static function onko_kayttajanimi_varattu($kayttajatunnus) {
+        $sql = 'SELECT kayttajatunnus from kayttaja where kayttajatunnus = ? LIMIT 1';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($kayttajatunnus));
+        $tulos = $kysely->fetchObject();
+        if ($tulos == null) {
+            return FALSE;
+        }
+        return TRUE;
+    }
+        
 
     public static function get_kayttaja_tunnuksilla($kayttajatunnus, $salasana) {
         $sql = 'SELECT id, kayttajatunnus, salasana, admin from kayttaja where kayttajatunnus = ? AND salasana = ? LIMIT 1';
@@ -74,6 +88,31 @@ class Kayttaja {
         $kysely->execute(array($id));
         return $kysely->fetchColumn();
     }
+
+    public function kelvollinen() {
+        return empty($this->virheet);
+    }
+    
+    public function get_virheet() {
+        return $this->virheet;
+    }
+
+    public function lisaa_kantaan() {
+        $sql = 'INSERT INTO kayttaja(kayttajatunnus, salasana, admin) 
+                VALUES (?,?,?)
+                RETURNING id';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $ok = $kysely->execute(array($this->get_kayttajatunnus(), 
+                                     $this->get_salasana(), 
+                                     $this->get_admin()
+                                    )
+                              );
+
+        if ($ok) {
+            $this->id = $kysely->fetchColumn();
+        }
+        return $ok;
+    }
         
 
     
@@ -94,14 +133,38 @@ class Kayttaja {
     }
     public function set_kayttajatunnus($tunnus){
         $this->kayttajatunnus = $tunnus;
+
+        if (Kayttaja::onko_kayttajanimi_varattu($tunnus)) {
+            $this->virheet['kayttajatunnus'] = 'Käyttäjätunnus on jo käytössä.';
+        }
+        if(trim($tunnus) == '') {
+            $this->virheet['kayttajatunnus'] = 'Käyttäjätunnus ei saa olla tyhjä.';
+        }
+        else
+        {
+            unset($this->virheet['kayttajatunnus']);
+        }
     }
     public function set_salasana($salasana){
         $this->salasana = $salasana;
+
+        if(trim($salasana) == '') {
+            $this->virheet['salasana'] = 'Salasana on liian lyhyt.';
+        }
+        else{
+            unset($this->virheet['salasana']);
+        }
     }
     public function set_id($id){
         $this->id = $id;
     }
     public function set_admin($value) {
         $this->admin = $value;
+
+        if ($value != 0 && $value != 1) {
+            $this->virheet['admin'] = 'Attribuutin admin täytyy olla 0 tai 1';
+        }else{
+            unset($this->virheet['admin']);
+        }
     }
 }
