@@ -46,26 +46,14 @@ class Askare {
     }
 
     public static function get_kayttajan_askareet($kayttaja_id) {
-        $sql = '((SELECT askare.id, askare.kuvaus, askare.tarkeys, luokka.nimi
-                FROM askare, askareenluokka, luokka
-                WHERE 
-                    askare.id = askareenluokka.askare_id AND
-                    luokka.id = askareenluokka.luokka_id AND
-                    askare.kayttaja_id = ?
-                )
-                UNION
-                (
-                SELECT askare.id, askare.kuvaus, askare.tarkeys, NULL
+        $sql = 'SELECT id, kuvaus, tarkeys
                 FROM askare
-                WHERE
-                    askare.kayttaja_id = ? AND
-                    askare.id NOT IN 
-                   (SELECT askare_id FROM askareenluokka)
-                ))
+                WHERE 
+                    kayttaja_id = ?
                 ORDER BY
                     tarkeys';
         $kysely = getTietokantayhteys()->prepare($sql);
-        $kysely->execute(array($kayttaja_id, $kayttaja_id));
+        $kysely->execute(array($kayttaja_id));
 
         $askareet = array();
         foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
@@ -74,8 +62,26 @@ class Askare {
             $askare->set_kayttaja(Kayttaja::get_kayttaja($kayttaja_id));
             $askare->set_kuvaus($tulos->kuvaus);
             $askare->set_tarkeys($tulos->tarkeys);
-            $askare->set_luokat(array($tulos->nimi));
+            $askare->set_luokat(array());
             $askareet[] = $askare;   
+        }
+
+        $sql = 'SELECT luokka.nimi, askareenluokka.askare_id
+                FROM askare, askareenluokka, luokka
+                WHERE
+                    askare.id = askareenluokka.askare_id AND
+                    luokka.id = askareenluokka.luokka_id AND
+                    askare.kayttaja_id = ?';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($kayttaja_id));
+        foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
+            foreach($askareet as $askare) {
+                if ($askare->get_id() == $tulos->askare_id) {
+                    $uusi_lista = $askare->get_luokat();
+                    $uusi_lista[] = $tulos->nimi;
+                    $askare->set_luokat($uusi_lista);
+                }
+            }
         }
 
         return $askareet;
