@@ -3,8 +3,9 @@
 3. Askaretta poistaessa poistuu tarpeettomaksi jääneet luokat
 4. Käyttäjä pääsee muokkaamaan vain omia askareitaan
 5. Kirjautunut käyttäjä pääsee login-sivulle
-6. Askarelistaus tärkeysjärjestyksessä
+----6. Askarelistaus tärkeysjärjestyksessä
 7. Eri käyttäjät voivat asettaa ristiriitaisia yliluokkia
 8. Väärällä syötteellä uusi luokka ei näy askareenilsäyslomakkeessa
 9. Käyttäjälistaus aakkosjärjestykseen
 10. Viimeinen ylläpitäjä voi poistaa oman admin-statuksensa
+11. Salasanan vaihto
