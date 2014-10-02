@@ -5,7 +5,7 @@ require_once 'lib/common.php';
 class Kayttaja {
   
     private $id;
-    private $tunnus;
+    private $kayttajatunnus;
     private $salasana;
     private $admin;
     private $virheet;
@@ -87,6 +87,16 @@ class Kayttaja {
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($id));
         return $kysely->fetchColumn();
+    }
+
+    public function update() {
+        $sql = 'UPDATE kayttaja
+                SET salasana = ?,
+                    admin = ?
+                WHERE id = ?';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $ok = $kysely->execute(array($this->get_salasana(), $this->get_admin(), $this->get_id()));
+        return $ok;
     }
 
     public function kelvollinen() {

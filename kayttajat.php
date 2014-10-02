@@ -27,6 +27,16 @@ if (isset($_POST['add'])) {
         naytaNakyma('kayttajat.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 4, 'kayttajat' => Kayttaja::get_kayttajat(), 'virheet' => $kayttaja->get_virheet(), 'lisattava_kayttaja' => $kayttaja));
     }
 }
+if (isset($_POST['set_admin'])) {
+    foreach(Kayttaja::get_kayttajat() as $kayttaja) {
+        if ($_POST['id'] == $kayttaja->get_id()) {
+            $kayttaja->set_admin($_POST['admin']);
+            $kayttaja->update();
+        }
+    }
+    naytaNakyma('kayttajat.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 4, 'kayttajat' => Kayttaja::get_kayttajat(), 'lisattava_kayttaja' => new Kayttaja()));
+}
+            
 else{
     naytaNakyma('kayttajat.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 4, 'kayttajat' => Kayttaja::get_kayttajat(), 'lisattava_kayttaja' => new Kayttaja()));
 }

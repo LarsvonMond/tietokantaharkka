@@ -4,6 +4,8 @@
 	    <link href="../css/bootstrap.css" rel="stylesheet">
 	    <link href="../css/bootstrap-theme.css" rel="stylesheet">
 	    <link href="../css/main.css" rel="stylesheet">
+        <script src="../js/jquery.min.js"></script>
+        <script src="../js/sivu.js"></script>
         <title>Muistilista</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>

@@ -1,6 +1,6 @@
 <div>
     <table class="table">
-        <tr> <th>Käyttäjätunnus</th><th>Salasana</th><th></th></tr>  
+        <tr> <th>Käyttäjätunnus</th><th>Salasana</th><th>Ylläpitäjä</th><th></th></tr>  
         <tr>
             <form action="kayttajat.php" method="POST">
                 <td><input type="text" name="kayttajatunnus" placeholder="Uusi käyttäjä" value="<?php echo $data->lisattava_kayttaja->get_kayttajatunnus(); ?>"></td>
@@ -15,7 +15,16 @@
             <?php foreach($data->kayttajat as $kayttaja): ?>
             <tr> <td><?php echo $kayttaja->get_kayttajatunnus(); ?> </td> 
             <td></td>
-            <td></td>
+            <td>
+                <form action="kayttajat.php" method="POST">
+                <input type="hidden" name="set_admin" value="TRUE">
+                <input type="hidden" name="id" value="<?php echo $kayttaja->get_id(); ?>">              
+                <input type="checkbox" name="admin"
+                    <?php if ($kayttaja->get_admin()) : ?>
+                        checked
+                    <?php endif; ?>>
+                </form>            
+            </td>
             <td>
                 <form action="kayttajat.php" method="POST">
                     <input type="hidden" name="id" value="<?php echo $kayttaja->get_id(); ?>">
