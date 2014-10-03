@@ -11,7 +11,8 @@
 11. Salasanan vaihto
 ----12. Luokalle pakotetaan yliluokka
 ----13. Askarelistaus näyttää myös aliluokkien askareet
-14. Yliluokka poistuu jos se ei ole suoraan minkään askareen luokka
+----14. Yliluokka poistuu jos se ei ole suoraan minkään askareen luokka
+15. Askareet tärkeysasteen sisällä aakkosjärjestykseen
 
 
 Prioriteetti:
@@ -20,9 +21,10 @@ Prioriteetti:
 ----4
 ----7
 ----13
-14
+----14
 11
 10
+15
 9
 1
 3

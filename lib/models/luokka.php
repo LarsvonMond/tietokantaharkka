@@ -73,15 +73,23 @@ class Luokka {
         
 
     public static function get_kayttajan_luokat($kayttaja_id) {
-        $sql = 'SELECT DISTINCT luokka.id, luokka.nimi, luokka.yliluokka_id
-                FROM 
-                    kayttaja, askare, askareenluokka, luokka
-                WHERE 
-                    kayttaja.id = askare.kayttaja_id AND
-                    askareenluokka.askare_id = askare.id AND
-                    askareenluokka.luokka_id = luokka.id AND
-                    kayttaja.id = ?
-                ORDER BY luokka.nimi';
+        $sql = 'WITH RECURSIVE kaikki_luokat(yliluokka_id, id, nimi) AS (
+                    SELECT luokka.yliluokka_id, luokka.id, luokka.nimi 
+                    FROM luokka, askare, askareenluokka, kayttaja
+                    WHERE
+                        kayttaja.id = askare.kayttaja_id AND
+                        askareenluokka.askare_id = askare.id AND
+                        askareenluokka.luokka_id = luokka.id AND
+                        kayttaja.id = ?
+                    UNION ALL
+                        SELECT luokka.yliluokka_id, luokka.id, luokka.nimi
+                        FROM kaikki_luokat, luokka
+                        WHERE luokka.id = kaikki_luokat.yliluokka_id
+                    )
+                SELECT DISTINCT yliluokka_id, id, nimi
+                FROM kaikki_luokat
+                ORDER BY nimi';
+
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($kayttaja_id));
         $luokat = array();
@@ -95,6 +103,7 @@ class Luokka {
 
         return $luokat;
     }
+
     
     public static function get_aliluokka_idt($luokka_idt) {
         $alemmat = array();
@@ -149,12 +158,52 @@ class Luokka {
     }
 
     public static function poista_turhat() {
-        $sql = 'DELETE FROM luokka WHERE luokka.id NOT IN
-                   (SELECT luokka.id
+        # Ne luokat, joihin ei ole suoraa viittausta.
+        $sql = 'SELECT luokka.id FROM luokka WHERE luokka.id NOT IN
+                    (SELECT luokka.id
                     FROM luokka, askareenluokka
                     WHERE luokka.id = askareenluokka.luokka_id)';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute();
+        foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
+            $aliluokat = Luokka::get_aliluokka_idt(array($tulos->id));
+            $saastetaan = FALSE;
+            foreach($aliluokat as $aliluokka_id) {
+                if (Luokka::onko_kaytossa($aliluokka_id)) {
+                    # Säästetään, jos yksikin aliluokka on käytössä
+                    $saastetaan = TRUE;
+                    break;
+                }
+            }
+            if (!$saastetaan) {
+                Luokka::delete($tulos->id);
+            }
+        }
+    }
+
+    private static function onko_kaytossa($luokka_id) {
+        # Luokka on käytössä jos se on yhdenkin askareen luokka
+        $sql = 'SELECT luokka.id 
+                FROM luokka, askareenluokka, askare
+                WHERE
+                    luokka.id = askareenluokka.luokka_id AND
+                    askare.id = askareenluokka.askare_id AND
+                    luokka.id = ?';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($luokka_id));
+        if ($kysely->fetchObject() == null) {
+            return FALSE;
+        }
+        return TRUE;
+    }
+        
+
+
+
+    private static function delete($luokka_id) {
+        $sql = 'DELETE FROM luokka WHERE luokka.id = ?';
         $poistokysely = getTietokantayhteys()->prepare($sql);
-        $poistokysely->execute();
+        $poistokysely->execute(array($luokka_id));
     }
 
     /* Getterit ja setterit */
