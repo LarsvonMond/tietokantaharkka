@@ -20,6 +20,8 @@ if (isset($_POST['kuvaus'])) {
         $luokan_nimi = trim($_POST['uusi_luokka']);
         if(!(trim($luokan_nimi) == '')) {
             $luokka = Luokka::get_luokka_nimella($luokan_nimi, $_SESSION['kirjautunut_kayttaja_id']);
+            # Jos käyttäjällä on jo samanniminen luokka, ei anneta virheilmoitusta vaan lisätään
+            # luokka uuteen askareeseen.
             if (empty($luokka)) {
                 $luokka = new Luokka();
                 $luokka->set_nimi(htmlspecialchars($luokan_nimi));
@@ -50,6 +52,8 @@ if (isset($_POST['kuvaus'])) {
         naytaNakyma('lisaa_askare.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 1, 'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id']), 'virheet' => $virheet, 'askare' => $askare));
     }
 }    
+
+
 
 naytaNakyma('lisaa_askare.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 1, 'askare' => new Askare(),
      'luokat' => Luokka::get_kayttajan_luokat($_SESSION['kirjautunut_kayttaja_id'])));

@@ -178,6 +178,23 @@ class Askare {
         return $askare;
     }
 
+    public static function onko_kayttajan_omistama($id, $kayttaja_id) {
+        $sql = 'SELECT askare.id
+                FROM askare, kayttaja
+                WHERE 
+                    askare.kayttaja_id = kayttaja.id AND
+                    askare.id = ? AND
+                    kayttaja.id = ?
+                LIMIT 1';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($id, $kayttaja_id));
+        $tulos = $kysely->fetchObject();
+        if ($tulos == null) {
+            return FALSE;
+        }
+        return TRUE;
+    }
+
     private function aseta_luokkaviittauset($askareet, $luokat) {
         $sql = 'SELECT askare_id, luokka_id from askareidenluokat';
         $kysely = getTietokantayhteys()->prepare($sql); $kysely->execute();

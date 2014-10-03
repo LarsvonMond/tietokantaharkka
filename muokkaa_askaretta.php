@@ -8,6 +8,10 @@ if (!kirjautunut()) {
 }
 
 if (isset($_POST['kuvaus'])) {
+    if (!Askare::onko_kayttajan_omistama($_POST['id'], $_SESSION['kirjautunut_kayttaja_id'])) {
+        $_SESSION['ilmoitus'] = 'Virheellinen askaretunnus.';    
+        header('Location: askarelistaus.php');
+    }
     $askare = new Askare();
     $askare->set_id($_POST['id']);
     $askare->set_kuvaus(htmlspecialchars($_POST['kuvaus']));
@@ -53,18 +57,26 @@ if (isset($_POST['kuvaus'])) {
 }
 else {
     if(isset($_POST['delete'])) {
+        if (!Askare::onko_kayttajan_omistama($_POST['id'], $_SESSION['kirjautunut_kayttaja_id'])) {
+            $_SESSION['ilmoitus'] = 'Virheellinen askaretunnus.';    
+            header('Location: askarelistaus.php');
+        }
         $askare = Askare::etsi((int)$_POST['id']);
         if($askare->delete()) {
             Luokka::poista_turhat();
             $_SESSION['ilmoitus'] = 'Askare poistettu.';
         }
         else{
-            $_SESSION['virheet'] = array('Poistaminen epäonnistui.');
+            $_SESSION['ilmoitus'] = 'Poistaminen epäonnistui.';
         }
         header('Location: askarelistaus.php');
     }
 
     else {
+        if (!Askare::onko_kayttajan_omistama($_GET['id'], $_SESSION['kirjautunut_kayttaja_id'])) {
+            $_SESSION['ilmoitus'] = 'Virheellinen askaretunnus.';    
+            header('Location: askarelistaus.php');
+        }
         $askare = Askare::etsi((int)$_GET['id']);
             
 
