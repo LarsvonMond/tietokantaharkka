@@ -18,11 +18,13 @@ if (isset($_POST['kuvaus'])) {
     if (isset($_POST['uusi_luokka'])) {
         $luokan_nimi = trim($_POST['uusi_luokka']);
         if(!(trim($luokan_nimi) == '')) {
-            $luokka = Luokka::get_luokka_nimella($luokan_nimi);
-            if (!$luokka) {
+            $luokka = Luokka::get_luokka_nimella($luokan_nimi, $_SESSION['kirjautunut_kayttaja_id']);
+            if (empty($luokka)) {
                 $luokka = new Luokka();
                 $luokka->set_nimi(htmlspecialchars($luokan_nimi));
-                $luokka->set_yliluokka_id($_POST['yliluokka_id']);
+                if ($yliluokka_id != 0) {
+                    $luokka->set_yliluokka_id($_POST['yliluokka_id']);
+                }
                 if (TRUE) {            
                     $luokka->lisaa_kantaan();
                 }

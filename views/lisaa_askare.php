@@ -46,6 +46,8 @@
                 <td>
                     <label>Yliluokka</label>
                     <select name="yliluokka_id">
+                        <option value=''>Valitse</option>
+                        <option value=''>-----</option>
                     <?php foreach($data->luokat as $luokka) : ?>
                         <option value="<?php echo $luokka->get_id(); ?>">
                             <?php echo $luokka->get_nimi(); ?>

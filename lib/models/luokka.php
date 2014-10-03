@@ -40,12 +40,18 @@ class Luokka {
         return $tulokset;
     }
 
-    public static function get_luokka_nimella($luokan_nimi) {
-        $sql = 'SELECT id, nimi, yliluokka_id
-                FROM luokka
-                WHERE nimi = ?';
+    public static function get_luokka_nimella($luokan_nimi, $kayttaja_id) {
+        $sql = 'SELECT luokka.id, luokka.nimi, luokka.yliluokka_id
+                FROM luokka, kayttaja, askareenluokka, askare
+                WHERE
+                    kayttaja.id = askare.kayttaja_id AND
+                    askare.id = askareenluokka.askare_id AND
+                    luokka.id = askareenluokka.luokka_id AND 
+                    luokka.nimi = ? AND
+                    kayttaja.id = ?
+                LIMIT 1';
         $kysely = getTietokantayhteys()->prepare($sql);
-        $kysely->execute(array($luokan_nimi));
+        $kysely->execute(array($luokan_nimi, $kayttaja_id));
         $tulos = $kysely->fetchObject();
         if ($tulos == null) {
             return null;
