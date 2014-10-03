@@ -95,6 +95,41 @@ class Luokka {
 
         return $luokat;
     }
+    
+    public static function get_aliluokka_idt($luokka_idt) {
+        $alemmat = array();
+        foreach($luokka_idt as $id) {
+            foreach(Luokka::preorder($id, $alemmat) as $alempi_id) {
+                $alemmat[] = $alempi_id;
+            }
+        }
+        return $alemmat;
+    }
+
+    private static function preorder($luokka_id, $lapikaydyt) {
+        $lapikaydyt[] = $luokka_id;
+        foreach(Luokka::get_aliluokat($luokka_id) as $aliluokka) {
+            $lapikaydyt = Luokka::preorder($aliluokka, $lapikaydyt);
+        }
+        return $lapikaydyt;
+    }
+                
+
+    private static function get_aliluokat($luokka_id) {
+        $sql = 'SELECT id
+                FROM luokka
+                WHERE
+                    luokka.yliluokka_id = ?';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute(array($luokka_id));
+        $tulokset = array();
+        foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
+            $tulokset[] = $tulos->id;
+        }
+        return $tulokset;
+    }
+        
+                    
 
     public static function etsi_nimi($id) {
         $sql = 'SELECT nimi 

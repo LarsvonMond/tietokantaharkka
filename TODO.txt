@@ -10,7 +10,8 @@
 10. Viimeinen ylläpitäjä voi poistaa oman admin-statuksensa
 11. Salasanan vaihto
 ----12. Luokalle pakotetaan yliluokka
-13. Askarelistaus näyttää myös aliluokkien askareet
+----13. Askarelistaus näyttää myös aliluokkien askareet
+14. Yliluokka poistuu jos se ei ole suoraan minkään askareen luokka
 
 
 Prioriteetti:
@@ -18,7 +19,12 @@ Prioriteetti:
 ----12
 ----4
 ----7
-13
+----13
+14
 11
 10
 9
+1
+3
+5
+8

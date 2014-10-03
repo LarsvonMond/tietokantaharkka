@@ -91,6 +91,7 @@ class Askare {
         if (!$luokka_idt) {
             return Askare::get_kayttajan_askareet($kayttaja_id);
         }
+        $luokka_idt = Luokka::get_aliluokka_idt($luokka_idt);
         $sql = 'SELECT DISTINCT askare.id, askare.kuvaus, askare.tarkeys
                 FROM askare, askareenluokka, luokka
                 WHERE 

@@ -26,7 +26,7 @@ if (isset($_POST['kuvaus'])) {
             if (empty($luokka)) {
                 $luokka = new Luokka();
                 $luokka->set_nimi(htmlspecialchars($luokan_nimi));
-                if ($yliluokka_id != 0) {
+                if ($_POST['yliluokka_id'] != 0) {
                     $luokka->set_yliluokka_id($_POST['yliluokka_id']);
                 }
                 if (TRUE) {            
