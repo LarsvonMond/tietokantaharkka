@@ -47,7 +47,7 @@ class Kayttaja {
         $kayttaja->set_id($tulos->id);
         $kayttaja->set_kayttajatunnus($tulos->kayttajatunnus);
         $kayttaja->set_salasana($tulos->salasana);
-        $kayttaja->set_admin($tulos->admin);
+        $kayttaja->set_admin($tulos->admin);          
         return $kayttaja;
     }
     

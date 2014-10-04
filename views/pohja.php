@@ -28,7 +28,7 @@
             <ul class="nav nav-pills" role="tablist">
                 <li <?php activeif($data->navbar, 0); ?>><a href="askarelistaus.php">Askarelista</a></li>
                 <li <?php activeif($data->navbar, 1); ?>><a href="lisaa_askare.php">Lisää askare</a></li>
-                <li <?php activeif($data->navbar, 2); ?>><a href="#">Vaihda salasana</a></li>
+                <li <?php activeif($data->navbar, 2); ?>><a href="vaihda_salasana.php">Vaihda salasana</a></li>
                 <?php if ($data->admin == TRUE) : ?>
                 <li <?php activeif($data->navbar, 4); ?>> <a href="kayttajat.php">Käyttäjät</a></li>
                 <?php endif; ?>

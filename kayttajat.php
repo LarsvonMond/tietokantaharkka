@@ -30,7 +30,12 @@ if (isset($_POST['add'])) {
 if (isset($_POST['set_admin'])) {
     foreach(Kayttaja::get_kayttajat() as $kayttaja) {
         if ($_POST['id'] == $kayttaja->get_id()) {
-            $kayttaja->set_admin($_POST['admin']);
+            if (isset($_POST['admin'])) {
+                $kayttaja->set_admin(1);
+            }
+            else{
+                $kayttaja->set_admin(0);
+            }
             $kayttaja->update();
         }
     }

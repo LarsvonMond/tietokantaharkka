@@ -1,6 +1,6 @@
 INSERT INTO kayttaja (kayttajatunnus, salasana, admin) VALUES ('admin', 'kermanekka', TRUE);
-INSERT INTO kayttaja (kayttajatunnus, salasana) VALUES ('Esko', 'eskoboy69');
-INSERT INTO kayttaja (kayttajatunnus, salasana) VALUES ('Hitler', 'lebensraum');
+INSERT INTO kayttaja (kayttajatunnus, salasana, admin) VALUES ('Esko', 'eskoboy69', FALSE);
+INSERT INTO kayttaja (kayttajatunnus, salasana, admin) VALUES ('Hitler', 'lebensraum', FALSE);
 
 INSERT INTO askare (kayttaja_id, kuvaus, tarkeys) VALUES (3, 'Kauf Sauerkraut', 1);
 INSERT INTO askare (kayttaja_id, kuvaus, tarkeys) VALUES (3, 'Kauf Panzerkampfwägen', 2);
