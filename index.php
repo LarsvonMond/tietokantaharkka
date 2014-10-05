@@ -1,6 +1,7 @@
 <?php
 
 require_once 'lib/common.php';
+require_once 'lib/models/kayttaja.php';
   
 if (isset($_SESSION['kirjautunut_kayttaja_id'])) {
     header('Location: askarelistaus.php');
@@ -10,7 +11,7 @@ if (isset($_POST['kirjaudu'])) {
     //Tarkistetaan että vaaditut kentät on täytetty:
     if (empty($_POST["kayttajatunnus"])) {
         naytaNakyma("login.php", array(
-          'virhe' => "Kirjautuminen epäonnistui! Et antanut käyttäjätunnusta.",
+          'virheet' => array("Kirjautuminen epäonnistui! Et antanut käyttäjätunnusta."),
         ));
     }
     $kayttajatunnus = $_POST["kayttajatunnus"];
@@ -18,7 +19,7 @@ if (isset($_POST['kirjaudu'])) {
     if (empty($_POST["salasana"])) {
         naytaNakyma("login.php", array(
           'kayttajatunnus' => $kayttaja,
-          'virhe' => "Kirjautuminen epäonnistui! Et antanut salasanaa.",
+          'virheet' => array("Kirjautuminen epäonnistui! Et antanut salasanaa."),
         ));
     }
     $salasana = $_POST["salasana"];
@@ -36,7 +37,7 @@ if (isset($_POST['kirjaudu'])) {
         naytaNakyma("login.php", array(
           /* Välitetään näkymälle tieto siitä, kuka yritti kirjautumista */
           'kayttajatunnus' => $kayttajatunnus,
-          'virhe' => "Kirjautuminen epäonnistui! Antamasi tunnus tai salasana on väärä.",
+          'virheet' => array("Kirjautuminen epäonnistui! Antamasi tunnus tai salasana on väärä."),
         ));
     }
 }

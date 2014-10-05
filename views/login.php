@@ -1,4 +1,4 @@
-<form action="kirjaudu.php" method="POST">
+<form action="index.php" method="POST">
     <label for="kayttajatunnus">Käyttäjätunnus</label>
     <input type="text" class="form-control" name="kayttajatunnus" placeholder="Käyttäjätunnus">
     <label for="salasana">Salasana</label>
