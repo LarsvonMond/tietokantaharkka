@@ -46,12 +46,13 @@ class Askare {
     }
 
     public static function get_kayttajan_askareet($kayttaja_id) {
+        # Haetaan ensin kaikki askareet
         $sql = 'SELECT id, kuvaus, tarkeys
                 FROM askare
                 WHERE 
                     kayttaja_id = ?
                 ORDER BY
-                    tarkeys';
+                    tarkeys, kuvaus';
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($kayttaja_id));
 
@@ -65,13 +66,15 @@ class Askare {
             $askare->set_luokat(array());
             $askareet[] = $askare;   
         }
-
+        
+        # Askareille luokat
         $sql = 'SELECT luokka.nimi, askareenluokka.askare_id
                 FROM askare, askareenluokka, luokka
                 WHERE
                     askare.id = askareenluokka.askare_id AND
                     luokka.id = askareenluokka.luokka_id AND
-                    askare.kayttaja_id = ?';
+                    askare.kayttaja_id = ?
+                ORDER BY luokka.nimi';
         $kysely = getTietokantayhteys()->prepare($sql);
         $kysely->execute(array($kayttaja_id));
         foreach($kysely->fetchAll(PDO::FETCH_OBJ) as $tulos) {
