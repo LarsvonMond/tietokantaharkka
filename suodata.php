@@ -5,7 +5,7 @@ require_once 'lib/models/luokka.php';
 require_once 'lib/models/kayttaja.php';
 
 if (!kirjautunut()) {
-    header('Location: kirjaudu.php');
+    header('Location: index.php');
 }
 
 naytaNakyma('suodata.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 0,

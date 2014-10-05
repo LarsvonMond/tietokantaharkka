@@ -4,7 +4,7 @@ require_once 'lib/common.php';
 require_once 'lib/models/kayttaja.php';
 
 if (!kirjautunut()) {
-    header('Location: kirjaudu.php');
+    header('Location: index.php');
 }
 if (!Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id'])) {
     header('Location: askarelistaus.php');

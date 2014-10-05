@@ -4,7 +4,7 @@ require_once 'lib/models/askare.php';
 require_once 'lib/models/luokka.php';
 
 if (!kirjautunut()) {
-    header('Location: kirjaudu.php');
+    header('Location: index.php');
 }
 
 if (isset($_POST['kuvaus'])) {
