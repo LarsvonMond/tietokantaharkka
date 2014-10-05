@@ -47,7 +47,10 @@ class Kayttaja {
         $kayttaja->set_id($tulos->id);
         $kayttaja->set_kayttajatunnus($tulos->kayttajatunnus);
         $kayttaja->set_salasana($tulos->salasana);
-        $kayttaja->set_admin($tulos->admin);          
+        $kayttaja->set_admin($tulos->admin); 
+        if(empty($tulos->admin)) {
+            $kayttaja->set_admin(0); 
+        }
         return $kayttaja;
     }
     
@@ -178,7 +181,7 @@ class Kayttaja {
     public function set_admin($value) {
         $this->admin = $value;
 
-        if ($value != 0 && $value != 1) {
+        if (!($value == 0 || $value == 1)) {
             $this->virheet['admin'] = 'Attribuutin admin täytyy olla 0 tai 1';
         }else{
             unset($this->virheet['admin']);
