@@ -3,7 +3,7 @@
 </div>
 <div>
     <table class="table">
-        <tr> <th>Askare</th><th>Luokat</th><th>Tärkeysaste</th><th></th></tr>  
+        <tr> <th>Askare</th><th>Luokat</th><th>Tärkeysaste</th><th></th><th></th></tr>  
         <?php foreach($data->askareet as $askare): ?>
             <tr> <td><?php echo $askare->get_kuvaus(); ?> </td> 
             <td><?php $pilkkulaskuri = 1; $luokkia = count($askare->get_luokat()); ?>
