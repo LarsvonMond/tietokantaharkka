@@ -23,7 +23,8 @@ class Kayttaja {
     }
 
     public static function get_kayttajat() {
-        $sql = 'SELECT id, kayttajatunnus, salasana, admin from kayttaja';
+        $sql = 'SELECT id, kayttajatunnus, salasana, admin from kayttaja 
+                ORDER BY kayttajatunnus';
         $kysely = getTietokantayhteys()->prepare($sql); $kysely->execute();
          
         $tulokset = array();
