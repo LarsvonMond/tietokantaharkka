@@ -34,12 +34,22 @@ if (isset($_POST['set_admin'])) {
                 $kayttaja->set_admin(1);
             }
             else{
-                $kayttaja->set_admin(0);
+                if (Kayttaja::admin_count() <= 1) {
+                    $virheet = array('Muistilistalla on oltava ylläpitäjä.');
+                }
+                else{
+                    $kayttaja->set_admin(0);
+                }
             }
-            $kayttaja->update();
+            $kayttaja->update();       
         }
     }
+    if (isset($virheet)) {
+        naytaNakyma('kayttajat.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 4, 'kayttajat' => Kayttaja::get_kayttajat(), 'lisattava_kayttaja' => new Kayttaja(), 'virheet' => $virheet));
+    }
+    else{
     naytaNakyma('kayttajat.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 4, 'kayttajat' => Kayttaja::get_kayttajat(), 'lisattava_kayttaja' => new Kayttaja()));
+    }
 }
 
 if (isset($_POST['delete'])) {

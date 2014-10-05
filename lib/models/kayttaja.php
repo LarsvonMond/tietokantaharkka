@@ -92,6 +92,13 @@ class Kayttaja {
         return $kysely->fetchColumn();
     }
 
+    public static function admin_count() {
+        $sql = 'SELECT id FROM kayttaja WHERE admin = TRUE';
+        $kysely = getTietokantayhteys()->prepare($sql);
+        $kysely->execute();
+        return count($kysely->fetchAll(PDO::FETCH_OBJ));
+    }
+
     public function delete() {
         $sql = 'DELETE FROM kayttaja WHERE id = ?';
         $poistokysely = getTietokantayhteys()->prepare($sql);
