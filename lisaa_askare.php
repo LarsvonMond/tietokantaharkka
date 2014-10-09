@@ -9,7 +9,7 @@ if (!kirjautunut()) {
     header('Location: index.php');
 }
 
-if (isset($_POST['kuvaus'])) {
+if (isset($_POST['add'])) {
     $askare = new Askare();
     $askare->set_kuvaus(htmlspecialchars($_POST['kuvaus']));
     $askare->set_tarkeys($_POST['tarkeys']);

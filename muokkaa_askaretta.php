@@ -7,7 +7,7 @@ if (!kirjautunut()) {
     header('Location: index.php');
 }
 
-if (isset($_POST['kuvaus'])) {
+if (isset($_POST['modify'])) {
     if (!Askare::onko_kayttajan_omistama($_POST['id'], $_SESSION['kirjautunut_kayttaja_id'])) {
         $_SESSION['ilmoitus'] = 'Virheellinen askaretunnus.';    
         header('Location: askarelistaus.php');

@@ -1,5 +1,6 @@
 <h1>Lisää askare</h1>
     <form action="lisaa_askare.php" method="POST">
+        <input type="hidden" name="add" value="TRUE">
         <input type="text" class="form-control" name="kuvaus" placeholder="Askare"
             value="<?php echo htmlspecialchars($data->askare->get_kuvaus()); ?>">
     <h3>Tärkeys<h3>
