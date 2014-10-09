@@ -15,6 +15,9 @@
 ----15. Askareet tärkeysasteen sisällä aakkosjärjestykseen
 16. Suodata-linkistä nappula
 17. Selvitä SQL:n false-hässäkkä
+----18. Navbar toimivaksi
+19. Muokkauslomakkeiden POST-tarkastelu järkeväksi
+
 
 
 Prioriteetti:

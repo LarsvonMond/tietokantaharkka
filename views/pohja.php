@@ -26,13 +26,23 @@
 
         <?php if (isset($data->navbar)): ?>
             <ul class="nav nav-pills" role="tablist">
-                <li <?php activeif($data->navbar, 0); ?>><a href="askarelistaus.php">Askarelista</a></li>
-                <li <?php activeif($data->navbar, 1); ?>><a href="lisaa_askare.php">Lisää askare</a></li>
-                <li <?php activeif($data->navbar, 2); ?>><a href="vaihda_salasana.php">Vaihda salasana</a></li>
+                <li <?php if ($data->navbar == 0) : ?>
+                        class="active"
+                    <?php endif; ?>><a href="askarelistaus.php">Askarelista</a></li>
+                <li <?php if ($data->navbar == 1) : ?>
+                        class="active"
+                    <?php endif; ?>><a href="lisaa_askare.php">Lisää askare</a></li>
+                <li <?php if ($data->navbar == 2) : ?>
+                        class="active"
+                    <?php endif; ?>><a href="vaihda_salasana.php">Vaihda salasana</a></li>
                 <?php if ($data->admin == TRUE) : ?>
-                <li <?php activeif($data->navbar, 4); ?>> <a href="kayttajat.php">Käyttäjät</a></li>
+                <li <?php if ($data->navbar == 4) : ?>
+                        class="active"
+                    <?php endif; ?>> <a href="kayttajat.php">Käyttäjät</a></li>
                 <?php endif; ?>
-                <li <?php activeif($data->navbar, 3); ?>><a href="logout.php">Kirjaudu ulos</a></li>
+                <li <?php if ($data->navbar == 3) : ?>
+                        class="active"
+                    <?php endif; ?>><a href="logout.php">Kirjaudu ulos</a></li>
             </ul>
         <?php endif; ?>
         <?php require 'views/'.$sivu; ?>
