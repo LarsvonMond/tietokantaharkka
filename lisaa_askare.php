@@ -28,7 +28,7 @@ if (isset($_POST['kuvaus'])) {
                 if ($_POST['yliluokka_id'] != 0) {
                     $luokka->set_yliluokka_id($_POST['yliluokka_id']);
                 }
-                if (TRUE) {            
+                if ($luokka->kelvollinen()) {            
                     $luokka->lisaa_kantaan();
                 }
             }

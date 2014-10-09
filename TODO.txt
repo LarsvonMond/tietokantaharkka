@@ -13,6 +13,8 @@
 ----13. Askarelistaus näyttää myös aliluokkien askareet
 ----14. Yliluokka poistuu jos se ei ole suoraan minkään askareen luokka
 ----15. Askareet tärkeysasteen sisällä aakkosjärjestykseen
+16. Suodata-linkistä nappula
+17. Selvitä SQL:n false-hässäkkä
 
 
 Prioriteetti:
