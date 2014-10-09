@@ -11,7 +11,7 @@ if (!kirjautunut()) {
 
 if (isset($_POST['add'])) {
     $askare = new Askare();
-    $askare->set_kuvaus(htmlspecialchars($_POST['kuvaus']));
+    $askare->set_kuvaus($_POST['kuvaus']);
     $askare->set_tarkeys($_POST['tarkeys']);
     $askare->set_kayttaja(Kayttaja::get_kayttaja($_SESSION['kirjautunut_kayttaja_id']));
     $luokka_idt = array();
@@ -24,7 +24,7 @@ if (isset($_POST['add'])) {
             # luokka uuteen askareeseen.
             if (empty($luokka)) {
                 $luokka = new Luokka();
-                $luokka->set_nimi(htmlspecialchars($luokan_nimi));
+                $luokka->set_nimi($luokan_nimi);
                 if ($_POST['yliluokka_id'] != 0) {
                     $luokka->set_yliluokka_id($_POST['yliluokka_id']);
                 }

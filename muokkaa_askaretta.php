@@ -14,7 +14,7 @@ if (isset($_POST['modify'])) {
     }
     $askare = new Askare();
     $askare->set_id($_POST['id']);
-    $askare->set_kuvaus(htmlspecialchars($_POST['kuvaus']));
+    $askare->set_kuvaus($_POST['kuvaus']);
     $askare->set_tarkeys($_POST['tarkeys']);
     $askare->set_kayttaja(Kayttaja::get_kayttaja($_SESSION['kirjautunut_kayttaja_id']));
     $luokka_idt = array();
@@ -25,7 +25,7 @@ if (isset($_POST['modify'])) {
             $luokka = Luokka::get_luokka_nimella($luokan_nimi, $_SESSION['kirjautunut_kayttaja_id']);
             if (empty($luokka)) {
                 $luokka = new Luokka();
-                $luokka->set_nimi(htmlspecialchars($luokan_nimi));
+                $luokka->set_nimi($luokan_nimi);
                 if ($_POST['yliluokka_id'] != 0) {
                     $luokka->set_yliluokka_id($_POST['yliluokka_id']);
                 }

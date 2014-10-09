@@ -12,7 +12,7 @@ if (!Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id'])) {
 
 if (isset($_POST['add'])) {
     $kayttaja = new Kayttaja();
-    $kayttaja->set_kayttajatunnus(htmlspecialchars($_POST['kayttajatunnus']));
+    $kayttaja->set_kayttajatunnus($_POST['kayttajatunnus']);
     $kayttaja->set_salasana($_POST['salasana']);
     if(isset($_POST['admin'])) {
         $kayttaja->set_admin(1);

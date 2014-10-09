@@ -17,7 +17,7 @@
 ----17. Selvitä SQL:n false-hässäkkä
 ----18. Navbar toimivaksi
 ----19. Muokkauslomakkeiden POST-tarkastelu järkeväksi
-20. Miten htmlspecialchars() -funktiota tulisi käyttää?
+----20. Miten htmlspecialchars() -funktiota tulisi käyttää?
 ----21. Ei pakoteta tärkeyttä
 
 

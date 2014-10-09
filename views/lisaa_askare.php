@@ -50,19 +50,19 @@
                         <option value=''>Valitse</option>
                         <option value=''>-----</option>
                     <?php foreach($data->luokat as $luokka) : ?>
-                        <option value="<?php echo $luokka->get_id(); ?>">
-                            <?php echo $luokka->get_nimi(); ?>
+                        <option value="<?php echo htmlspecialchars($luokka->get_id()); ?>">
+                            <?php echo htmlspecialchars($luokka->get_nimi()); ?>
                         </option>
                     <?php endforeach; ?>
                     </select>
                 </td>
             </tr>
             <?php foreach($data->luokat as $luokka) : ?>
-                <tr> <td><input type="checkbox" name="<?php echo $luokka->get_id(); ?>"
+                <tr> <td><input type="checkbox" name="<?php echo htmlspecialchars($luokka->get_id()); ?>"
                             <?php if (in_array($luokka->get_id(), $data->askare->get_luokat())): ?>
                                 checked
                             <?php endif; ?>></td><td>
-                <?php echo $luokka->get_nimi() ?></td><td></td></tr> 
+                <?php echo htmlspecialchars($luokka->get_nimi()) ?></td><td></td></tr> 
             <?php endforeach; ?>
     </table>
     <button class="btn btn-default" type="submit">Lisää</button>
