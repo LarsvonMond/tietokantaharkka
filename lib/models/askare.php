@@ -341,12 +341,6 @@ class Askare {
     }
     public function set_tarkeys($value) {
         $this->tarkeys = $value;
-
-        if(!is_numeric($value)) {
-            $this->virheet['tarkeys'] = 'Tärkeyden täytyy olla numeerinen';
-        }else{
-            unset($this->virheet['tarkeys']);
-        }
     }
     public function get_luokat() {
         return $this->luokat;

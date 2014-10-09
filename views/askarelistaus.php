@@ -1,5 +1,5 @@
 <div class="btn-group">
-    <a href="suodata.php">Suodata</a>
+    <a href="suodata.php" class="btn btn-default">Suodata</a>
 </div>
 <div>
     <table class="table">

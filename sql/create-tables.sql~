@@ -9,17 +9,17 @@ CREATE TABLE askare (
     id SERIAL PRIMARY KEY,
     kuvaus text NOT NULL,
     tarkeys integer NOT NULL,
-    kayttaja_id integer REFERENCES kayttajat (id) ON DELETE cascade ON UPDATE cascade
+    kayttaja_id integer REFERENCES kayttaja (id) ON DELETE cascade ON UPDATE cascade
 );
 
 CREATE TABLE luokka (
     id SERIAL PRIMARY KEY,
     nimi text NOT NULL, 
-    yliluokka_id integer REFERENCES luokat (id) ON DELETE SET NULL ON UPDATE cascade
+    yliluokka_id integer REFERENCES luokka (id) ON DELETE SET NULL ON UPDATE cascade
 );
 
 CREATE TABLE askareenluokka (
     id SERIAL PRIMARY KEY,
-    askare_id integer REFERENCES askareet (id) ON DELETE cascade ON UPDATE cascade,
-    luokka_id integer REFERENCES luokat (id) ON DELETE cascade ON UPDATE cascade
+    askare_id integer REFERENCES askare (id) ON DELETE cascade ON UPDATE cascade,
+    luokka_id integer REFERENCES luokka (id) ON DELETE cascade ON UPDATE cascade
 );

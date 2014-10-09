@@ -8,7 +8,7 @@ CREATE TABLE kayttaja (
 CREATE TABLE askare (
     id SERIAL PRIMARY KEY,
     kuvaus text NOT NULL,
-    tarkeys integer NOT NULL,
+    tarkeys integer,
     kayttaja_id integer REFERENCES kayttaja (id) ON DELETE cascade ON UPDATE cascade
 );
 
