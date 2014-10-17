@@ -45,10 +45,16 @@ if (isset($_POST['set_admin'])) {
         }
     }
     if (isset($virheet)) {
+        if (!Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id'])) {
+            header('Location: askarelistaus.php');
+        }
         naytaNakyma('kayttajat.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 4, 'kayttajat' => Kayttaja::get_kayttajat(), 'lisattava_kayttaja' => new Kayttaja(), 'virheet' => $virheet));
     }
     else{
-    naytaNakyma('kayttajat.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 4, 'kayttajat' => Kayttaja::get_kayttajat(), 'lisattava_kayttaja' => new Kayttaja()));
+        if (!Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id'])) {
+            header('Location: askarelistaus.php');
+        }
+        naytaNakyma('kayttajat.php', array('admin' => Kayttaja::onko_admin($_SESSION['kirjautunut_kayttaja_id']), 'navbar' => 4, 'kayttajat' => Kayttaja::get_kayttajat(), 'lisattava_kayttaja' => new Kayttaja()));
     }
 }
 
